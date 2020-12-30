@@ -1,0 +1,10 @@
+[package]
+name = "saveFile"
+version = "0.1.0"
+authors = ["wingdust <995315823@qq.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+winreg = "0.8"
