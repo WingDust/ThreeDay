@@ -13,6 +13,7 @@
     {"fileSystem":["write","directory"]},
     "nativeMessaging"
   ],
+  "minimum_chrome_version":"23",
   "background":{
     "scripts":["background.js"],
     "persistent":false
