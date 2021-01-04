@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-25 15:07:48
- * @LastEditTime: 2021-01-02 21:20:01
+ * @LastEditTime: 2021-01-04 20:15:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\background.ts
@@ -10,6 +10,12 @@
 // chrome 的 TypeScript声明文件地址：https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/chrome
 /// <reference path="./index.d.ts" />
 
+
+let port = chrome.runtime.connectNative('com.my_company.my_application');
+port.onMessage.addListener(function(msg){
+    console.log(msg);
+})
+port.postMessage("[{as:1},2,3]");
 
 chrome.tabs.onRemoved.addListener(function () {
     // chrome.tabs.query({currentWindow:true},function(tabs){
@@ -25,7 +31,7 @@ chrome.tabs.onRemoved.addListener(function () {
             for (const window of windows) {//forof 遍历值 forin 遍历key
                  all_tabs = all_tabs.concat(window.tabs)
             }
-            console.log(all_tabs)
+            console.log(JSON.stringify(all_tabs))
         }
     })
 
@@ -77,12 +83,11 @@ chrome.tabs.onCreated.addListener(function () {
     })
 })
 
-let port = chrome.runtime.connectNative('com.my_company.my_application');
 
-chrome.runtime.onStartup.addListener(function(){
-    let port = chrome.runtime.connectNative('com.my_company.my_application');
+// chrome.runtime.onStartup.addListener(function(){
+//     let port = chrome.runtime.connectNative('com.my_company.my_application');
 
-})
+// })
 
 
 // chrome.runtime

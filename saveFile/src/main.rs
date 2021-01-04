@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-02 22:18:12
+ * @LastEditTime: 2021-01-04 13:09:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -11,9 +11,32 @@ extern crate winreg;
 use winreg::enums::*;
 use winreg::RegKey;
 
+
+
+#[macro_use(println_stderr)]
+extern crate webextension_protocol as protocol;
+use std::io::Write;
+use std::process;
+
+
+// extern crate chrome_native_messaging;
+// use chrome_native_messaging::event_loop;
+// use chrome_native_messaging::read_input;
+
+// extern crate serde_json;
+// use serde_json::Value;
+
+
 use std::io;
-use std::fs::File;
-use std::io::prelude::*;
+// use std::fs::File;
+// use std::io::prelude::*;
+// use byteorder::{NativeEndian};
+// use std::result::Result as StdResult;
+// use std::error::Error as StdError;
+// use std::result::Result ;
+// use std::error;
+// use std::str;
+
 // use std::io::{self, Read, Write};
 
 // use std::path::Path;
@@ -33,30 +56,71 @@ fn main() -> io::Result<()>  {
         if value != "C:\\Users\\Administrator\\Desktop\\chrome_extension\\com.google.chrome.demo-win.json".to_string() {
             key.set_value("", &"C:\\Users\\Administrator\\Desktop\\chrome_extension\\com.google.chrome.demo-win.json")?;
         }
-        let mut f = File::create("backup.json")?;
-        f.write_all(b"https://www.baidu.com")?;//需要引入 use std::io::prelude::*;
-        f.sync_data()?;
 
-        let mut instream = io::stdin();
-        let mut len = [0;4];
-        instream.read(&mut len)?;
-        let mut buffer = vec![0;u32::from_ne_bytes(len) as usize];
-        instream.read_exact( &mut buffer)?;
+    //"path":"C:\\Users\\Administrator\\Desktop\\chrome_extension\\saveFile\\target\\debug\\saveFile.exe",
+        // let mut f = File::create("backup.json")?;
+        // f.write_all(b"https://www.baidu.com")?;//需要引入 use std::io::prelude::*;
+        // f.sync_data()?;
+
+        // let mut instream = io::stdin();
+        // let mut len = [0;4];//这个指初始化长度为4每一个为0（间接也定义了数组类型）的数组
+        // instream.read(&mut len)?;
+        // let mut buffer = vec![0;u32::from_ne_bytes(len) as usize];
+        // instream.read_exact( &mut buffer)?;
+
+        // println!("{:?}",str::from_utf8(&buffer));
+
+        loop {
+            let message = match protocol::read_stdin() {
+                Ok(m) => m,
+                Err(_) => process::exit(1),
+            };
+            println_stderr!("received {}", message);
+            protocol::write_stdout(message);
+        }
+
+
+        
+        // instream.read_u32::<NativeEndian>();
+        // let  instream = io::stdin();
+        // let mut input = String::new();
+        // loop{
+        //     match instream.read_line(&mut input) {
+        //          Ok(n) => {
+        //             println!("{} bytes read", n);
+        //             println!("{}", input);
+        //         }
+        //         Err(error) => println!("error: {}", error),
+        //     }
+        // }
+
+        // event_loop(test)
+
 
     }
 
     
-    let _a:Option<i32> = Some(3);
+    // let _a:Option<i32> = Some(3);
 
-    let mut _s = "Hello".to_string(); 
-    let _string = "Hello there.";
-    let s = String::from("asdasd");
-    let v = String::from("asdasd");
-    let _s2 = s + &v;
+    // let mut _s = "Hello".to_string(); 
+    // let _string = "Hello there.";
+    // let s = String::from("asdasd");
+    // let v = String::from("asdasd");
+    // let _s2 = s + &v;
     
 
     Ok(())
 }
+
+
+
+// fn test(val:serde_json::Value)->Result<(),error::Error>{
+
+//     Ok(())
+
+// }
+
+
 
 #[warn(dead_code)]
 // 判断当前运行环境的操作系统
