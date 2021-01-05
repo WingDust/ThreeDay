@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-25 15:07:48
- * @LastEditTime: 2021-01-04 20:15:41
+ * @LastEditTime: 2021-01-05 11:21:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\background.ts
@@ -15,23 +15,32 @@ let port = chrome.runtime.connectNative('com.my_company.my_application');
 port.onMessage.addListener(function(msg){
     console.log(msg);
 })
-port.postMessage("[{as:1},2,3]");
+// port.postMessage("[{as:1},2,3]");
 
 chrome.tabs.onRemoved.addListener(function () {
     // chrome.tabs.query({currentWindow:true},function(tabs){
     //     console.log(tabs);
     // })
+    let all_urls:any[]=[]
     chrome.windows.getAll({populate:true},function (windows) {
         if (windows.length ==1) {//当窗口为 1 个的时候
-        console.log(windows[0].tabs)
-        return
+        // console.log(windows[0].tabs![0].url)
+        for (const tab of windows[0].tabs!) {
+            all_urls = all_urls.concat(tab.url)
+        }
+        console.log(JSON.stringify(all_urls));
+        port.postMessage(JSON.stringify(all_urls))
         }
         else{ //当窗口不为 1 个的时候
             let all_tabs:any[]=[];
             for (const window of windows) {//forof 遍历值 forin 遍历key
                  all_tabs = all_tabs.concat(window.tabs)
             }
-            console.log(JSON.stringify(all_tabs))
+            for (const tab of all_tabs) {
+                all_urls = all_urls.concat(tab.url)
+            }
+            console.log(JSON.stringify(all_urls))
+            port.postMessage(JSON.stringify(all_urls))
         }
     })
 
@@ -45,40 +54,51 @@ chrome.tabs.onRemoved.addListener(function () {
 })
 
 chrome.tabs.onUpdated.addListener(function () {
+    let all_urls:any[]=[]
     chrome.windows.getAll({populate:true},function (windows) {
         if (windows.length ==1) {//当窗口为 1 个的时候
-        console.log(windows[0].tabs)
-        return
-        }else{ //当窗口不为 1 个的时候
+        // console.log(windows[0].tabs![0].url)
+        for (const tab of windows[0].tabs!) {
+            all_urls = all_urls.concat(tab.url)
+        }
+        console.log(JSON.stringify(all_urls));
+        port.postMessage(JSON.stringify(all_urls))
+        }
+        else{ //当窗口不为 1 个的时候
             let all_tabs:any[]=[];
             for (const window of windows) {//forof 遍历值 forin 遍历key
                  all_tabs = all_tabs.concat(window.tabs)
             }
-            console.log(all_tabs)
+            for (const tab of all_tabs) {
+                all_urls = all_urls.concat(tab.url)
+            }
+            console.log(JSON.stringify(all_urls))
+            port.postMessage(JSON.stringify(all_urls))
         }
-
-        // windows.forEach(function(window){
-        //     window.tabs?.forEach(function(tab){
-        //     console.log(tab);
-        //     })
-        // })
     })
 })
 
 chrome.tabs.onCreated.addListener(function () {
-    // chrome.tabs.query({currentWindow:true},function(tabs){
-    //     console.log(tabs);
-    // })
+    let all_urls:any[]=[]
     chrome.windows.getAll({populate:true},function (windows) {
         if (windows.length ==1) {//当窗口为 1 个的时候
-        console.log(windows[0].tabs)
-        return
-        }else{ //当窗口不为 1 个的时候
+        // console.log(windows[0].tabs![0].url)
+        for (const tab of windows[0].tabs!) {
+            all_urls = all_urls.concat(tab.url)
+        }
+        console.log(JSON.stringify(all_urls));
+        port.postMessage(JSON.stringify(all_urls))
+        }
+        else{ //当窗口不为 1 个的时候
             let all_tabs:any[]=[];
             for (const window of windows) {//forof 遍历值 forin 遍历key
                  all_tabs = all_tabs.concat(window.tabs)
             }
-            console.log(all_tabs)
+            for (const tab of all_tabs) {
+                all_urls = all_urls.concat(tab.url)
+            }
+            console.log(JSON.stringify(all_urls))
+            port.postMessage(JSON.stringify(all_urls))
         }
     })
 })
