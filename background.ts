@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-25 15:07:48
- * @LastEditTime: 2021-01-05 11:21:21
+ * @LastEditTime: 2021-01-06 14:59:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\background.ts
@@ -17,6 +17,9 @@ port.onMessage.addListener(function(msg){
 })
 // port.postMessage("[{as:1},2,3]");
 
+/**
+* 发出的数据都应该是字符串数组
+*/
 chrome.tabs.onRemoved.addListener(function () {
     // chrome.tabs.query({currentWindow:true},function(tabs){
     //     console.log(tabs);
