@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-07 21:05:57
+ * @LastEditTime: 2021-01-07 21:53:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -29,13 +29,14 @@ fn main() {
             Err(_) => process::exit(1),
         };
         if message != "" {
-            if Path::new("backup.json").exists() {
+            if Path::new("backup-1.json").exists() {
               if  is_empty() {
-                File::create("backup.json").expect("backup.json write error");
+                File::create("backup-1.json").expect("backup-1.json write error");
               }
               else{//文件内容不为空
-                is_in_threedays();
+                if is_in_threedays() {
 
+                }
                   /* 1. 先知道文件最后一次的写入时间
                      2. 当为明天时就新建一个文件写入
                      3. 写入的长度大于
@@ -55,7 +56,7 @@ fn main() {
 /// 暂只用知道是否是空内容文件
 ///
 fn is_empty()-> bool{
-    let contents = fs::read_to_string("backup.json").expect(" Something went woring reading the file");
+    let contents = fs::read_to_string("backup-1.json").expect(" Something went woring reading the file");
     if contents == "" {
         return true
     }
@@ -66,7 +67,7 @@ fn is_empty()-> bool{
 }
 
 fn is_in_threedays() ->bool{
-    let metadata = fs::metadata("backup.json").expect("asd");
+    let metadata = fs::metadata("backup-1.json").expect("fileinfo error");
     let time = metadata.modified().expect("time error");
     let msecond : DateTime<Local>=time.into();
     let m =msecond.date().and_hms(0, 0, 0).timestamp();
