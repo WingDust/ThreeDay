@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-04 13:09:07
+ * @LastEditTime: 2021-01-07 20:46:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -12,6 +12,10 @@ use winreg::enums::*;
 use winreg::RegKey;
 
 
+extern crate chrono ;
+use chrono::prelude::*;
+
+use std::time::SystemTime;
 
 #[macro_use(println_stderr)]
 extern crate webextension_protocol as protocol;
@@ -28,6 +32,7 @@ use std::process;
 
 
 use std::io;
+use std::fs;
 // use std::fs::File;
 // use std::io::prelude::*;
 // use byteorder::{NativeEndian};
@@ -70,6 +75,29 @@ fn main() -> io::Result<()>  {
 
         // println!("{:?}",str::from_utf8(&buffer));
 
+        let metadata = fs::metadata("backup.json").expect("asd");
+        let time = metadata.modified().expect("time error");
+        // let t: DateTime<Utc> = time.into();
+        let t: DateTime<Local> = time.into();
+        let t1 =t.date();
+        let dt2: DateTime<Local> = Local.timestamp(0, 0);
+        println!("{}",t1.and_hms(0,0,0).format("%d/%m/%Y %T"));
+        println!("{}",t1.format("%d/%m/%Y"));
+        println!("{}",t.format("%d/%m/%Y %T"));
+        println!("{}",dt2.format("%d/%m/%Y %T"));
+
+        let system_time = SystemTime::now();
+        let datetime: DateTime<Utc> = system_time.into();
+        println!("{}", datetime.format("%d/%m/%Y %T"));
+        let dt = Local::now();
+        println!("dt: {}", dt);
+        println!("dt: {}", dt.timestamp_millis());
+
+        let s1 = dt.date().and_hms(0, 0, 0).timestamp();
+        let s2 = t.date().and_hms(0, 0, 0).timestamp();
+
+        println!("s1: {}", s1);
+        println!("s2: {}", s2);
         loop {
             let message = match protocol::read_stdin() {
                 Ok(m) => m,
