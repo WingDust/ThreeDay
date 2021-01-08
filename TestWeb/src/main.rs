@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-08 13:43:40
+ * @LastEditTime: 2021-01-08 19:18:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -27,6 +27,7 @@ struct Backup{
    pub backup1:bool,
    pub backup2:bool,
    pub backup3:bool,
+   nums:i32,
 }
 
 fn main() {
@@ -40,13 +41,33 @@ fn main() {
                 backup1:Path::new("backup-1.json").exists(),
                 backup2:Path::new("backup-2.json").exists(),
                 backup3:Path::new("backup-3.json").exists(),
+                nums: exists(),
             };
             if backup.backup1 {
                 if is_in_threedays() {
-
+                    if backup.nums == 1{// 表示 1 存在
+                        fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
+                        let mut f =File::create("backup-1.json").expect("create backup-1 failed");
+                        f.write_all(message.as_bytes()).expect("write file failed");
+                    }
+                    else if backup.nums ==2 { // 表示 1、2 存在
+                        fs::rename("backup-2.json", "backup-3.json").expect("rename 2-3 failed");
+                        fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
+                        let mut f =File::create("backup-1.json").expect("create backup-1 failed");
+                        f.write_all(message.as_bytes()).expect("write file failed");
+                    }
+                    else if backup.nums == 3 {// 表示 1、2、3 存在
+                        fs::remove_file("backup-3.json").expect("remove backup-3 failed");
+                        fs::rename("backup-2.json", "backup-3.json").expect("rename 2-3 failed");
+                        fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
+                        let mut f =File::create("backup-1.json").expect("create backup-1 failed");
+                        f.write_all(message.as_bytes()).expect("write file failed");
+                    }
                 }
                 else{
-
+                    let mut f =File::create("backup-1.json").expect("create backup-1 failed");
+                    f.write_all(message.as_bytes()).expect("write file failed");
+                    println_stderr!("received {}", message);
                 }
                   /* 1. 先知道文件最后一次的写入时间
                      2. 当为明天时就新建一个文件写入
@@ -77,6 +98,7 @@ fn is_empty()-> bool{
 }
 //////////////////////////////
 ///判断文件最后一次修改时间距今是否至少有一天的时间
+/// true:有一天 false:没有一天
 fn is_in_threedays() ->bool{
     let metadata = fs::metadata("backup-1.json").expect("fileinfo error");
     let time = metadata.modified().expect("time error");
@@ -92,8 +114,8 @@ fn is_in_threedays() ->bool{
     }
 }
 #[allow(dead_code)]
-fn exists(){
-    // let backup1 = Path::new("backup-1.json").exists();
-    // let backup2 = Path::new("backup-2.json").exists();
-    // let backup3 = Path::new("backup-3.json").exists();
+fn exists()->i32{
+    if Path::new("backup-2.json").exists() {return 2} 
+    else if Path::new("backup-3.json").exists() {return 3} 
+    else { return Default::default()}
 }
