@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-07 21:20:38
+ * @LastEditTime: 2021-01-08 10:37:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -17,12 +17,12 @@
   - 首先是在启动 Chrome 时，还是要将所有的 tab 的 url 传送出去，而在 Rust 程序接收到这个信息后，要对这个传入的数组除入反序列化外，还要对这个数组的长度进行检测，以及当前已保存 url 的 backup.json 文件中是否有内容要进行判断 
     1. 当为 0 时
   - 当按了像 OneTab 这样的会大量减少 tabs 的数量，怎么处理？
-
+  - 当我有一天的时间没有使用 Chrome 呢:中间有空档期
 ## TODO
   - [x] 对这要保存的三天文件进行文件命名固定
-    - backup-1.json：今天
-    - backup-2.json：昨天
-    - backup-3.json：前天
+    - backup-1.json：今天-现在的使用状态
+    - backup-2.json：昨天-上一次的使用状态
+    - backup-3.json：前天-上上次的使用状态
   - [ ] Extension Test
   - [ ] FireFox Extension Learn
 
