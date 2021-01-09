@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-09 17:01:08
+ * @LastEditTime: 2021-01-09 19:21:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -36,15 +36,24 @@ fn main() {
             Ok(m) => m,
             Err(_) => process::exit(1),
         };
+        // println_stderr!("{}",message != "");
+                  /* 1. 先知道文件最后一次的写入时间
+                     2. 当为明天时就新建一个文件写入
+                     3. 写入的长度大于
+                  */
         if message != "" {
+            println_stderr!("1. {}",message != "");
             let backup = Backup{
                 backup1:Path::new("backup-1.json").exists(),
                 backup2:Path::new("backup-2.json").exists(),
                 backup3:Path::new("backup-3.json").exists(),
                 nums: exists(),
             };
+            println_stderr!("backup {}", backup.backup1);
             if backup.backup1 {
+                    println_stderr!("2. ");
                 if is_in_threedays() {
+                    println_stderr!("3. ");
                     if backup.nums == 1{// 表示 1 存在
                         fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
                         write_json(&message);
@@ -66,18 +75,15 @@ fn main() {
                     }
                 }
                 else{
-                    // f.write_all(message.as_bytes()).expect("write file failed");
                     write_json(&message);
                     println_stderr!("received 4 {}", message);
                 }
-                  /* 1. 先知道文件最后一次的写入时间
-                     2. 当为明天时就新建一个文件写入
-                     3. 写入的长度大于
-                  */
             }
-        }
-        else{
-            println_stderr!("1 ");
+            else{
+                // f.write_all(message.as_bytes()).expect("write file failed");
+                write_json(&message);
+                println_stderr!("received 4 {}", message);
+            }
         }
 
         println_stderr!("received {}", message);

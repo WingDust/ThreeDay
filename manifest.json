@@ -10,7 +10,6 @@
   },
   "permissions":[
     "tabs",
-    {"fileSystem":["write","directory"]},
     "nativeMessaging"
   ],
   "minimum_chrome_version":"23",
