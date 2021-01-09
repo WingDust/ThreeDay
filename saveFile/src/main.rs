@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-07 20:46:01
+ * @LastEditTime: 2021-01-09 12:23:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -27,13 +27,13 @@ use std::process;
 // use chrome_native_messaging::event_loop;
 // use chrome_native_messaging::read_input;
 
-// extern crate serde_json;
-// use serde_json::Value;
+extern crate serde_json;
+use serde_json::Value;
 
 
 use std::io;
 use std::fs;
-// use std::fs::File;
+use std::fs::File;
 // use std::io::prelude::*;
 // use byteorder::{NativeEndian};
 // use std::result::Result as StdResult;
@@ -98,6 +98,17 @@ fn main() -> io::Result<()>  {
 
         println!("s1: {}", s1);
         println!("s2: {}", s2);
+
+
+        let f =File::create("backup-1.json").expect("create backup-1 failed");
+        // f.write_all(message.as_bytes()).expect("write file failed");
+        let v:Value=serde_json::from_str("[1,2,3]").expect("trans json error");
+        // let v1 =serde_json::to_string(&v).unwrap();
+        serde_json::to_writer(&f, &v).expect("write json failed");
+
+
+
+
         loop {
             let message = match protocol::read_stdin() {
                 Ok(m) => m,

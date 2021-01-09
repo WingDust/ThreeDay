@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-08 19:18:42
+ * @LastEditTime: 2021-01-09 17:01:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -13,7 +13,7 @@ use std::io::Write;
 use std::process;
 
 extern crate serde_json ;
-// use serde_json::{Value,Result};
+use serde_json::{Value};
 
 extern crate chrono;
 use chrono::prelude::*;
@@ -47,33 +47,37 @@ fn main() {
                 if is_in_threedays() {
                     if backup.nums == 1{// 表示 1 存在
                         fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
-                        let mut f =File::create("backup-1.json").expect("create backup-1 failed");
-                        f.write_all(message.as_bytes()).expect("write file failed");
+                        write_json(&message);
+                        println_stderr!("received 1 {}", message);
                     }
                     else if backup.nums ==2 { // 表示 1、2 存在
                         fs::rename("backup-2.json", "backup-3.json").expect("rename 2-3 failed");
                         fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
-                        let mut f =File::create("backup-1.json").expect("create backup-1 failed");
-                        f.write_all(message.as_bytes()).expect("write file failed");
+                        write_json(&message);
+                        println_stderr!("received 2 {}", message);
                     }
                     else if backup.nums == 3 {// 表示 1、2、3 存在
                         fs::remove_file("backup-3.json").expect("remove backup-3 failed");
                         fs::rename("backup-2.json", "backup-3.json").expect("rename 2-3 failed");
                         fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
-                        let mut f =File::create("backup-1.json").expect("create backup-1 failed");
-                        f.write_all(message.as_bytes()).expect("write file failed");
+                        write_json(&message);
+                        // f.write_all(message.as_bytes()).expect("write file failed");
+                        println_stderr!("received 3 {}", message);
                     }
                 }
                 else{
-                    let mut f =File::create("backup-1.json").expect("create backup-1 failed");
-                    f.write_all(message.as_bytes()).expect("write file failed");
-                    println_stderr!("received {}", message);
+                    // f.write_all(message.as_bytes()).expect("write file failed");
+                    write_json(&message);
+                    println_stderr!("received 4 {}", message);
                 }
                   /* 1. 先知道文件最后一次的写入时间
                      2. 当为明天时就新建一个文件写入
                      3. 写入的长度大于
                   */
             }
+        }
+        else{
+            println_stderr!("1 ");
         }
 
         println_stderr!("received {}", message);
@@ -118,4 +122,11 @@ fn exists()->i32{
     if Path::new("backup-2.json").exists() {return 2} 
     else if Path::new("backup-3.json").exists() {return 3} 
     else { return Default::default()}
+}
+
+#[allow(dead_code)]
+fn write_json(message:&str){
+    let  f =File::create("backup-1.json").expect("create backup-1 failed");
+    let v:Value=serde_json::from_str(message).expect("trans json error");
+    serde_json::to_writer(&f, &v).expect("write json failed");
 }
