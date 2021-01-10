@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-10 12:45:56
- * @LastEditTime: 2021-01-10 16:27:30
+ * @LastEditTime: 2021-01-10 21:29:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\firefox\background.ts
@@ -16,7 +16,7 @@ browser.tabs.onCreated.addListener(async function (){
     for (const tab of tabs) {
         all_urls = all_urls.concat(tab.url)
     }
-    console.log(tabs);
+    console.log(all_urls);
 })
 
 
@@ -26,7 +26,7 @@ browser.tabs.onRemoved.addListener(async function (){
     for (const tab of tabs) {
         all_urls.push(tab.url)
     }
-    console.log(tabs);
+    console.log(all_urls);
 })
 
 browser.tabs.onUpdated.addListener(async function (){
@@ -35,5 +35,5 @@ browser.tabs.onUpdated.addListener(async function (){
     for (const tab of tabs) {
         all_urls = all_urls.concat(tab.url)
     }
-    console.log(tabs);
+    console.log(all_urls);
 })

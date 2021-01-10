@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-10 12:45:56
- * @LastEditTime: 2021-01-10 16:16:07
+ * @LastEditTime: 2021-01-10 21:29:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\firefox\background.ts
@@ -22,22 +22,29 @@ browser.tabs.onCreated.addListener(function () {
     return __awaiter(this, void 0, void 0, function* () {
         let all_urls = [];
         let tabs = yield browser.tabs.query({});
-        console.log(tabs);
-        // let windows = await browser.windows.getAll()
-        // console.log(windows);
+        for (const tab of tabs) {
+            all_urls = all_urls.concat(tab.url);
+        }
+        console.log(all_urls);
     });
 });
 browser.tabs.onRemoved.addListener(function () {
     return __awaiter(this, void 0, void 0, function* () {
         let all_urls = [];
-        let windows = yield browser.windows.getAll();
-        console.log(windows);
+        let tabs = yield browser.tabs.query({});
+        for (const tab of tabs) {
+            all_urls.push(tab.url);
+        }
+        console.log(all_urls);
     });
 });
 browser.tabs.onUpdated.addListener(function () {
     return __awaiter(this, void 0, void 0, function* () {
         let all_urls = [];
-        let windows = yield browser.windows.getAll();
-        console.log(windows);
+        let tabs = yield browser.tabs.query({});
+        for (const tab of tabs) {
+            all_urls = all_urls.concat(tab.url);
+        }
+        console.log(all_urls);
     });
 });

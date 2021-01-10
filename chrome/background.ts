@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-25 15:07:48
- * @LastEditTime: 2021-01-10 16:29:54
+ * @LastEditTime: 2021-01-10 22:20:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\background.ts
@@ -31,7 +31,7 @@ chrome.tabs.onRemoved.addListener(function () {
         if (windows.length ==1) {//当窗口为 1 个的时候
         // console.log(windows[0].tabs![0].url)
         for (const tab of windows[0].tabs!) {
-            all_urls = all_urls.concat(tab.url)
+            all_urls.push(tab.url)
         }
         console.log(JSON.stringify(all_urls));
         port.postMessage(JSON.stringify(all_urls))
@@ -42,7 +42,7 @@ chrome.tabs.onRemoved.addListener(function () {
                  all_tabs = all_tabs.concat(window.tabs)
             }
             for (const tab of all_tabs) {
-                all_urls = all_urls.concat(tab.url)
+                all_urls.push(tab.url)
             }
             console.log(JSON.stringify(all_urls))
             port.postMessage(JSON.stringify(all_urls))
@@ -60,11 +60,11 @@ chrome.tabs.onRemoved.addListener(function () {
 
 chrome.tabs.onUpdated.addListener(function () {
     let all_urls:any[]=[]
-    chrome.windows.getAll({populate:true},function (windows) {
+    chrome.windows.getAll({populate:true},function (windows:chrome.windows.Window[]) {
         if (windows.length ==1) {//当窗口为 1 个的时候
         // console.log(windows[0].tabs![0].url)
         for (const tab of windows[0].tabs!) {
-            all_urls = all_urls.concat(tab.url)
+            all_urls.push(tab.url)
         }
         console.log(JSON.stringify(all_urls));
         port.postMessage(JSON.stringify(all_urls))
@@ -75,7 +75,7 @@ chrome.tabs.onUpdated.addListener(function () {
                  all_tabs = all_tabs.concat(window.tabs)
             }
             for (const tab of all_tabs) {
-                all_urls = all_urls.concat(tab.url)
+                all_urls.push(tab.url)
             }
             console.log(JSON.stringify(all_urls))
             port.postMessage(JSON.stringify(all_urls))
@@ -85,11 +85,11 @@ chrome.tabs.onUpdated.addListener(function () {
 
 chrome.tabs.onCreated.addListener(function () {
     let all_urls:any[]=[]
-    chrome.windows.getAll({populate:true},function (windows) {
+    chrome.windows.getAll({populate:true},function (windows:chrome.windows.Window[]) {
         if (windows.length ==1) {//当窗口为 1 个的时候
         // console.log(windows[0].tabs![0].url)
         for (const tab of windows[0].tabs!) {
-            all_urls = all_urls.concat(tab.url)
+            all_urls.push(tab.url)
         }
         console.log(JSON.stringify(all_urls));
         port.postMessage(JSON.stringify(all_urls))
@@ -100,7 +100,7 @@ chrome.tabs.onCreated.addListener(function () {
                  all_tabs = all_tabs.concat(window.tabs)
             }
             for (const tab of all_tabs) {
-                all_urls = all_urls.concat(tab.url)
+                all_urls.push(tab.url)
             }
             console.log(JSON.stringify(all_urls))
             port.postMessage(JSON.stringify(all_urls))
