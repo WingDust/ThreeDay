@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-09 19:21:43
+ * @LastEditTime: 2021-01-10 11:19:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -54,12 +54,8 @@ fn main() {
                     println_stderr!("2. ");
                 if is_in_threedays() {
                     println_stderr!("3. ");
-                    if backup.nums == 1{// 表示 1 存在
-                        fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
-                        write_json(&message);
-                        println_stderr!("received 1 {}", message);
-                    }
-                    else if backup.nums ==2 { // 表示 1、2 存在
+                    // println_stderr!("backup.nums ==1: {}",backup.nums ==1);
+                     if backup.nums ==2 { // 表示 1、2 存在
                         fs::rename("backup-2.json", "backup-3.json").expect("rename 2-3 failed");
                         fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
                         write_json(&message);
@@ -72,6 +68,11 @@ fn main() {
                         write_json(&message);
                         // f.write_all(message.as_bytes()).expect("write file failed");
                         println_stderr!("received 3 {}", message);
+                    }
+                    else{// 表示 1 存在
+                        fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
+                        write_json(&message);
+                        println_stderr!("received 1 {}", message);
                     }
                 }
                 else{
