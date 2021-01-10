@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-10 15:05:39
+ * @LastEditTime: 2021-01-10 15:32:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -26,14 +26,19 @@
     - Three Day
 
 ## Chrome Extension
+  - 编译 TypeScript
+    - `$ tsc`
   - Reference
     - [What is Native Messaging between applications and how does it work?](https://stackoverflow.com/questions/25169384/what-is-native-messaging-between-applications-and-how-does-it-work)
     - Debug Chrome Native Messaging
-      - []()
+      - [chrome extension native message & native client](https://blog.csdn.net/weixin_36139431/article/details/98870250)
   - 依赖
     - [chrmod/rust-webextension-protocol](https://github.com/chrmod/rust-webextension-protocol)
     - [serde-rs/serde](https://github.com/serde-rs/serde) 
 
+## FireFox Webextension
+  - FireFox  Webextension 使用 TypeScript 的声明文件，以及 Edge 的使用 TypeScript 的声明文件
+    - [browser.d.ts dependency for Edge web extension APIs browser.runtime.* in typescript](https://stackoverflow.com/questions/43650517/browser-d-ts-dependency-for-edge-web-extension-apis-browser-runtime-in-typescr)
 ## Rust
   - Rust `if` `else if` `else`
     > `if` `else if` `else` 在一个函数中使用时，这些语句常常分担了划分界限的功能
