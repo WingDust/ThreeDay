@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-25 15:07:48
- * @LastEditTime: 2021-01-09 15:52:36
+ * @LastEditTime: 2021-01-10 16:29:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\background.ts
@@ -27,7 +27,7 @@ chrome.tabs.onRemoved.addListener(function () {
     //     console.log(tabs);
     // })
     let all_urls:any[]=[]
-    chrome.windows.getAll({populate:true},function (windows) {
+    chrome.windows.getAll({populate:true},function (windows:chrome.windows.Window[]) {
         if (windows.length ==1) {//当窗口为 1 个的时候
         // console.log(windows[0].tabs![0].url)
         for (const tab of windows[0].tabs!) {
