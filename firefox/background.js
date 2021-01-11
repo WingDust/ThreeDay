@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-10 12:45:56
- * @LastEditTime: 2021-01-10 21:29:51
+ * @LastEditTime: 2021-01-11 21:36:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\firefox\background.ts
@@ -18,6 +18,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 // Firefox 的 TypeScript声明文件地址：https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/firefox-webext-browser/index.d.ts
 /// <reference path="./index.d.ts" />
+let port_firefox = browser.runtime.connectNative('com.my_company.my_application');
+port_firefox.onMessage.addListener(function (msg) {
+    console.log(msg);
+});
 browser.tabs.onCreated.addListener(function () {
     return __awaiter(this, void 0, void 0, function* () {
         let all_urls = [];
@@ -26,6 +30,7 @@ browser.tabs.onCreated.addListener(function () {
             all_urls = all_urls.concat(tab.url);
         }
         console.log(all_urls);
+        port_firefox.postMessage(all_urls);
     });
 });
 browser.tabs.onRemoved.addListener(function () {
@@ -36,6 +41,7 @@ browser.tabs.onRemoved.addListener(function () {
             all_urls.push(tab.url);
         }
         console.log(all_urls);
+        port_firefox.postMessage(all_urls);
     });
 });
 browser.tabs.onUpdated.addListener(function () {
@@ -46,5 +52,6 @@ browser.tabs.onUpdated.addListener(function () {
             all_urls = all_urls.concat(tab.url);
         }
         console.log(all_urls);
+        port_firefox.postMessage(all_urls);
     });
 });
