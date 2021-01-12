@@ -1,0 +1,7 @@
+{
+    "name":"com.my_application",
+    "description":"Firefox native messageing api example",
+    "path":"C:\\Users\\Administrator\\Desktop\\chrome_extension\\TestWeb\\target\\debug\\TestWeb.exe",
+    "type":"stdio",
+    "allowed_extensions":["threeday@wingdust.com"]
+}

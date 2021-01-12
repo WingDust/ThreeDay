@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-10 11:19:52
+ * @LastEditTime: 2021-01-12 22:31:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -17,6 +17,11 @@ use serde_json::{Value};
 
 extern crate chrono;
 use chrono::prelude::*;
+
+
+extern crate winreg;
+use winreg::enums::*;
+use winreg::RegKey;
 
 use std::fs;
 use std::fs::File;
@@ -41,6 +46,12 @@ fn main() {
                      2. 当为明天时就新建一个文件写入
                      3. 写入的长度大于
                   */
+        if "windows" == jugment_os(){
+
+        }
+        else{
+
+        }
         if message != "" {
             println_stderr!("1. {}",message != "");
             let backup = Backup{
@@ -136,4 +147,40 @@ fn write_json(message:&str){
     let  f =File::create("backup-1.json").expect("create backup-1 failed");
     let v:Value=serde_json::from_str(message).expect("trans json error");
     serde_json::to_writer(&f, &v).expect("write json failed");
+}
+
+// 判断当前运行环境的操作系统
+#[allow(dead_code)]
+fn jugment_os()->&'static str{
+    if cfg!(target_os = "windows"){
+        "windows"
+    }
+    else if cfg!(target_os = "linux"){
+        "linux"
+    }
+    else{
+        "non-windows or linux"
+    }
+}
+
+
+#[allow(dead_code)]
+fn chrome_native_config(){
+    let hklm = RegKey::predef(HKEY_CURRENT_USER);
+    let (key,disp) = hklm.create_subkey("SOFTWARE\\Google\\Chrome\\NativeMessagingHosts\\com.my_company.my_application").unwrap();
+
+    match disp {
+        REG_CREATED_NEW_KEY => println!("A new key has been created"),
+        REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
+    }
+    let value:String = key.get_value("").unwrap();
+    if value != "C:\\Users\\Administrator\\Desktop\\chrome_extension\\com.google.chrome.demo-win.json".to_string() {
+        key.set_value("", &"C:\\Users\\Administrator\\Desktop\\chrome_extension\\com.google.chrome.demo-win.json").unwrap();
+    }
+}
+
+
+#[allow(dead_code)]
+fn firefox_native_config(){
+    let hklm = RegKey::predef(HKEY_CURRENT_USER);
 }

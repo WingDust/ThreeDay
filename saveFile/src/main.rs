@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-09 12:23:37
+ * @LastEditTime: 2021-01-12 22:23:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -163,16 +163,16 @@ fn main() -> io::Result<()>  {
 
 #[warn(dead_code)]
 // 判断当前运行环境的操作系统
-fn jugment_os()->String{
+fn jugment_os()->&'static str{
     if cfg!(target_os = "windows"){
         println!("windows");
-        (*"windows").to_string()
+        "windows"
     }
     else if cfg!(target_os = "linux"){
         // println!("linux");
-        (*"linux").to_string()
+        "linux"
     }
     else{
-        (*"non-windows or linux").to_string()
+        "non-windows or linux"
     }
 }

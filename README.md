@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-10 15:32:36
+ * @LastEditTime: 2021-01-12 22:32:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -20,10 +20,19 @@
     - backup-1.json：今天-现在的使用状态
     - backup-2.json：昨天-上一次的使用状态
     - backup-3.json：前天-上上次的使用状态
-  - [ ] Extension Test
-  - [ ] FireFox Extension Learn
+  - [x] Extension Test
+  - [x] FireFox Extension Learn
   - [x] 插件名
     - Three Day
+  - [ ] Linux Browser Test
+  - [ ] 在同一台电脑下的即使用 Chrome 又使用 FireFox 对它们的保存路径的设置
+  - [ ] 配置文件的位置
+
+## 依赖
+  - Rust
+    - [chrmod/rust-webextension-protocol](https://github.com/chrmod/rust-webextension-protocol)
+    - [serde-rs/serde](https://github.com/serde-rs/serde) 
+    - [chronotope/chrono](https://github.com/chronotope/chrono)
 
 ## Chrome Extension
   - 编译 TypeScript
@@ -32,9 +41,6 @@
     - [What is Native Messaging between applications and how does it work?](https://stackoverflow.com/questions/25169384/what-is-native-messaging-between-applications-and-how-does-it-work)
     - Debug Chrome Native Messaging
       - [chrome extension native message & native client](https://blog.csdn.net/weixin_36139431/article/details/98870250)
-  - 依赖
-    - [chrmod/rust-webextension-protocol](https://github.com/chrmod/rust-webextension-protocol)
-    - [serde-rs/serde](https://github.com/serde-rs/serde) 
 
 ## FireFox Webextension
   - FireFox  Webextension 使用 TypeScript 的声明文件，以及 Edge 的使用 TypeScript 的声明文件
