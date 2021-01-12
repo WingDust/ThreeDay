@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-12 22:31:04
+ * @LastEditTime: 2021-01-12 22:47:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -183,4 +183,17 @@ fn chrome_native_config(){
 #[allow(dead_code)]
 fn firefox_native_config(){
     let hklm = RegKey::predef(HKEY_CURRENT_USER);
+    let (_key,disp) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\com.my_application").unwrap();
+
+    match disp {
+        REG_CREATED_NEW_KEY => println!("A new key has been created"),
+        REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
+    }
+    let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
+    let (_key2,disp2) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\com.my_application").unwrap();
+    match disp2 {
+        REG_CREATED_NEW_KEY => println!("A new key has been created"),
+        REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
+    }
+
 }
