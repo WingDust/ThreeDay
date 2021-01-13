@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-13 12:12:58
+ * @LastEditTime: 2021-01-13 14:58:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -31,9 +31,10 @@
   - 配置文件的位置
     - 暂设定 Windows 为 D：盘
     - Linux 为用户文件
-  - 当扩展被第一次安装时，或更新时会传入信息，表明扩展已安装，用来继续后面的配置
-    - Chrome  为 `[1，0]`
-    - FireFox 为 `[0, 1]`
+  - 对传入的消息识别处理
+    - 当扩展被第一次安装时，或更新时会传入信息，表明扩展已安装，用来继续后面的配置
+      - Chrome  为 `[1，0]`
+      - FireFox 为 `[0, 1]`
 
 ## 依赖
   - Rust

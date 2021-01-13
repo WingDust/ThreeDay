@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-13 14:54:21
+ * @LastEditTime: 2021-01-13 16:15:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -47,25 +47,8 @@ fn main() {
                      3. 写入的长度大于
                   */
                   /* 1. 先判断是那个浏览器传入了数据，2. 判断操作系统 */
-        let os = jugment_os();
-        if os == "windows"{
-
-        }
-        else if os == "linux"{
-
-        }
-        else{
-
-        }
         if message != "" {
-            println_stderr!("1. {}",message != "");
-            let backup = Backup{
-                backup1:Path::new("backup-1.json").exists(),
-                backup2:Path::new("backup-2.json").exists(),
-                backup3:Path::new("backup-3.json").exists(),
-                nums: exists(),
-            };
-            println_stderr!("backup {}", backup.backup1);
+            // println_stderr!("1. {}",message != "");
             if backup.backup1 {
                     println_stderr!("2. ");
                 if is_in_threedays() {
@@ -126,8 +109,8 @@ fn is_empty()-> bool{
 //////////////////////////////
 ///判断文件最后一次修改时间距今是否至少有一天的时间
 /// true:有一天 false:没有一天
-fn is_in_threedays() ->bool{
-    let metadata = fs::metadata("backup-1.json").expect("fileinfo error");
+fn is_in_threedays(browser:&str) ->bool{
+    let metadata = fs::metadata(format!("./{}/backup-1.json",browser)).expect("fileinfo error");
     let time = metadata.modified().expect("time error");
     let msecond : DateTime<Local>=time.into();
     let m =msecond.date().and_hms(0, 0, 0).timestamp();
@@ -140,15 +123,16 @@ fn is_in_threedays() ->bool{
         return false
     }
 }
+
 #[allow(dead_code)]
-fn exists()->i32{
-    if Path::new("backup-2.json").exists() {return 2} 
-    else if Path::new("backup-3.json").exists() {return 3} 
+fn exists(browser:&str)->i32{
+    if Path::new(&format!("./{}/backup-2.json",browser)).exists() {return 2} 
+    else if Path::new(&format!("./{}/backup-3.json",browser)).exists() {return 3} 
     else { return Default::default()}
 }
 
 #[allow(dead_code)]
-fn write_json(message:&str){
+fn write_json(message:&str,path:&str){
     let  f =File::create("backup-1.json").expect("create backup-1 failed");
     let v:Value=serde_json::from_str(message).expect("trans json error");
     serde_json::to_writer(&f, &v).expect("write json failed");
@@ -168,58 +152,84 @@ fn jugment_os()->&'static str{
     }
 }
 
-
 #[allow(dead_code)]
 fn chrome_native_config(){
-    let hklm = RegKey::predef(HKEY_CURRENT_USER);
-    let (key,disp) = hklm.create_subkey("SOFTWARE\\Google\\Chrome\\NativeMessagingHosts\\com.my_company.my_application").unwrap();
+    let os = jugment_os();
+    if os == "windows"   {
+        let hklm = RegKey::predef(HKEY_CURRENT_USER);
+        let (key,disp) = hklm.create_subkey("SOFTWARE\\Google\\Chrome\\NativeMessagingHosts\\com.my_company.my_application").unwrap();
 
-    match disp {
-        REG_CREATED_NEW_KEY => println!("A new key has been created"),
-        REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
+        match disp {
+            REG_CREATED_NEW_KEY => println!("A new key has been created"),
+            REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
+        }
+        let value:String = key.get_value("").unwrap();
+        if value != "C:\\Users\\Administrator\\Desktop\\chrome_extension\\com.google.chrome.demo-win.json".to_string() {
+            key.set_value("", &"C:\\Users\\Administrator\\Desktop\\chrome_extension\\com.google.chrome.demo-win.json").unwrap();
+        }
     }
-    let value:String = key.get_value("").unwrap();
-    if value != "C:\\Users\\Administrator\\Desktop\\chrome_extension\\com.google.chrome.demo-win.json".to_string() {
-        key.set_value("", &"C:\\Users\\Administrator\\Desktop\\chrome_extension\\com.google.chrome.demo-win.json").unwrap();
+    else if os == "linux" {
+
     }
 }
-
 
 #[allow(dead_code)]
 fn firefox_native_config(){
-    let hklm = RegKey::predef(HKEY_CURRENT_USER);
-    let (_key,disp) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\com.my_application").unwrap();
+    let os = jugment_os();
+    if os == "windows"   {
+        let hklm = RegKey::predef(HKEY_CURRENT_USER);
+        let (_key,disp) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\com.my_application").unwrap();
 
-    match disp {
-        REG_CREATED_NEW_KEY => println!("A new key has been created"),
-        REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
+        match disp {
+            REG_CREATED_NEW_KEY => println!("A new key has been created"),
+            REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
+        }
+        let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
+        let (_key2,disp2) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\com.my_application").unwrap();
+        match disp2 {
+            REG_CREATED_NEW_KEY => println!("A new key has been created"),
+            REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
+        }
     }
-    let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
-    let (_key2,disp2) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\com.my_application").unwrap();
-    match disp2 {
-        REG_CREATED_NEW_KEY => println!("A new key has been created"),
-        REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
+    else if os == "linux" {
+
     }
 }
 
 #[allow(dead_code)]
-fn jugment_browser(message:&str) -> i32{
+fn jugment_browser(message:&str){
     let v:Value=serde_json::from_str(message).expect("trans json error");
     let first_v=v.get(0).unwrap();
     let second_v=v.get(1).unwrap();
     if  first_v==1{                 //表明这个消息是来自 Chrome  Installed消息
-        1
+        chrome_native_config();
     }
     else if second_v == 1{          //表明这个消息是来自 FireFox Installed消息
-        3
+        firefox_native_config();
     }
     else if  first_v == "chrome"{   //表明这个消息是来自 Chrome  Tabs消息
-        2
+        let backup = Backup{
+            backup1:Path::new("./chrome/backup-1.json").exists(),
+            backup2:Path::new("./chrome/backup-2.json").exists(),
+            backup3:Path::new("./chrome/backup-3.json").exists(),
+            nums: exists("chrome"),
+        };
     }
     else if first_v == "firefox"{   //表明这个消息是来自 FireFox Tabs消息
-        2
+        let backup = Backup{
+            backup1:Path::new("./firefox/backup-1.json").exists(),
+            backup2:Path::new("./firefox/backup-2.json").exists(),
+            backup3:Path::new("./firefox/backup-3.json").exists(),
+            nums: exists("firefox"),
+        };
     }
     else {
-        4
     }
+}
+#[allow(dead_code)]
+fn order_jugment(backup:Backup,browser:&str){
+    if backup.backup1 &&  is_in_threedays(browser){
+
+    }
+
 }
