@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-25 15:07:48
- * @LastEditTime: 2021-01-10 22:20:17
+ * @LastEditTime: 2021-01-13 12:27:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\background.ts
@@ -19,6 +19,9 @@ port.onMessage.addListener(function(msg){
 })
 // port.postMessage("[{as:1},2,3]");
 
+chrome.runtime.onInstalled.addListener(()=>{
+    port.postMessage([1,0])
+})
 /**
 * 发出的数据都应该是字符串数组
 */
@@ -44,6 +47,7 @@ chrome.tabs.onRemoved.addListener(function () {
             for (const tab of all_tabs) {
                 all_urls.push(tab.url)
             }
+            all_urls.unshift("chrome")
             console.log(JSON.stringify(all_urls))
             port.postMessage(JSON.stringify(all_urls))
         }
@@ -77,6 +81,7 @@ chrome.tabs.onUpdated.addListener(function () {
             for (const tab of all_tabs) {
                 all_urls.push(tab.url)
             }
+            all_urls.unshift("chrome")
             console.log(JSON.stringify(all_urls))
             port.postMessage(JSON.stringify(all_urls))
         }
@@ -102,6 +107,7 @@ chrome.tabs.onCreated.addListener(function () {
             for (const tab of all_tabs) {
                 all_urls.push(tab.url)
             }
+            all_urls.unshift("chrome")
             console.log(JSON.stringify(all_urls))
             port.postMessage(JSON.stringify(all_urls))
         }

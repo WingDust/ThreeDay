@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-12 22:23:24
+ * @LastEditTime: 2021-01-13 14:34:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -52,11 +52,10 @@ fn main() -> io::Result<()>  {
     if "windows" == jugment_os() {
         let hklm = RegKey::predef(HKEY_CURRENT_USER);
         let (key,disp) = hklm.create_subkey("SOFTWARE\\Google\\Chrome\\NativeMessagingHosts\\com.my_company.my_application")?;
+        // json!();
 
-        match disp {
-            REG_CREATED_NEW_KEY => println!("A new key has been created"),
-            REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
-        }
+        match disp { REG_CREATED_NEW_KEY => println!("A new key has been created"), REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
+                   }
         let value:String = key.get_value("")?;
         if value != "C:\\Users\\Administrator\\Desktop\\chrome_extension\\com.google.chrome.demo-win.json".to_string() {
             key.set_value("", &"C:\\Users\\Administrator\\Desktop\\chrome_extension\\com.google.chrome.demo-win.json")?;
@@ -105,9 +104,8 @@ fn main() -> io::Result<()>  {
         let v:Value=serde_json::from_str("[1,2,3]").expect("trans json error");
         // let v1 =serde_json::to_string(&v).unwrap();
         serde_json::to_writer(&f, &v).expect("write json failed");
-
-
-
+        assert_eq!(v.get(0).unwrap(),1);
+        println!("{}",v.get(0).unwrap()==1);
 
         loop {
             let message = match protocol::read_stdin() {

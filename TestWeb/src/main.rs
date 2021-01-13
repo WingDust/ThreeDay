@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-12 22:47:16
+ * @LastEditTime: 2021-01-13 14:54:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -46,7 +46,12 @@ fn main() {
                      2. 当为明天时就新建一个文件写入
                      3. 写入的长度大于
                   */
-        if "windows" == jugment_os(){
+                  /* 1. 先判断是那个浏览器传入了数据，2. 判断操作系统 */
+        let os = jugment_os();
+        if os == "windows"{
+
+        }
+        else if os == "linux"{
 
         }
         else{
@@ -195,5 +200,26 @@ fn firefox_native_config(){
         REG_CREATED_NEW_KEY => println!("A new key has been created"),
         REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
     }
+}
 
+#[allow(dead_code)]
+fn jugment_browser(message:&str) -> i32{
+    let v:Value=serde_json::from_str(message).expect("trans json error");
+    let first_v=v.get(0).unwrap();
+    let second_v=v.get(1).unwrap();
+    if  first_v==1{                 //表明这个消息是来自 Chrome  Installed消息
+        1
+    }
+    else if second_v == 1{          //表明这个消息是来自 FireFox Installed消息
+        3
+    }
+    else if  first_v == "chrome"{   //表明这个消息是来自 Chrome  Tabs消息
+        2
+    }
+    else if first_v == "firefox"{   //表明这个消息是来自 FireFox Tabs消息
+        2
+    }
+    else {
+        4
+    }
 }
