@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-13 14:58:29
+ * @LastEditTime: 2021-01-14 13:55:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -31,6 +31,7 @@
   - 配置文件的位置
     - 暂设定 Windows 为 D：盘
     - Linux 为用户文件
+    - 清单文件与应用程序文件应放到同一个文件下
   - 对传入的消息识别处理
     - 当扩展被第一次安装时，或更新时会传入信息，表明扩展已安装，用来继续后面的配置
       - Chrome  为 `[1，0]`
@@ -47,6 +48,7 @@
     - `$ tsc`
   - Reference
     - [What is Native Messaging between applications and how does it work?](https://stackoverflow.com/questions/25169384/what-is-native-messaging-between-applications-and-how-does-it-work)
+    - [消息传递](https://crxdoc-zh.appspot.com/extensions/messaging#external)
     - Debug Chrome Native Messaging
       - [chrome extension native message & native client](https://blog.csdn.net/weixin_36139431/article/details/98870250)
 
