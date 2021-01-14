@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-14 21:30:39
+ * @LastEditTime: 2021-01-14 22:51:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -27,6 +27,7 @@ use std::fs;
 use std::fs::File;
 use std::path::Path;
 
+///用来判断保存了几次状态
 #[allow(dead_code)]
 struct Backup{
    pub backup1:bool,
@@ -35,8 +36,9 @@ struct Backup{
    nums:i32,
 }
 
+///用来识别信息分流
 #[allow(dead_code)]
-enum MessageIdentify{//用来识别信息分流
+enum MessageIdentify{
     ChromeInstall(bool),
     ChromeTabs(bool),
     FirefoxInstall(bool),
@@ -55,7 +57,7 @@ fn main() {
                      3. 写入的长度大于
                   */
                   /* 1. 先判断是那个浏览器传入了数据，2. 判断操作系统 */
-        jugment_browser(&message);
+        runtime(&message);
 
         println_stderr!("received {}", message);
         protocol::write_stdout(message);
@@ -63,6 +65,7 @@ fn main() {
 }
 
 /* run 函数 */
+/// 程序的运行函数
 #[allow(dead_code)]
 fn runtime(message:&str){
     let message_result:MessageIdentify = jugment_browser_message(message).unwrap();
@@ -77,6 +80,7 @@ fn runtime(message:&str){
 }
 
 /* utils 函数 */
+/// 对浏览器传入的信息进行作用辨识
 #[allow(dead_code)]
 fn jugment_browser_message(message:&str) ->Option<MessageIdentify> {
     let v:Value=serde_json::from_str(message).expect("trans json error");
@@ -98,6 +102,7 @@ fn jugment_browser_message(message:&str) ->Option<MessageIdentify> {
 }
 
 /* utils 函数 */
+/// 对保存的
 #[allow(dead_code)]
 fn order_jugment(browser:&str,message:&str){
     let backup = Backup{
@@ -156,7 +161,6 @@ fn write_json(message:&str,path:&str){
 }
 
 /* utils 函数 */
-//////////////////////////////
 ///判断文件最后一次修改时间距今是否至少有一天的时间
 /// true:有一天 false:没有一天
 fn is_in_threedays(browser:&str) ->bool{

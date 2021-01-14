@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-14 13:55:20
+ * @LastEditTime: 2021-01-14 22:44:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -59,3 +59,6 @@
   - Rust `if` `else if` `else`
     > `if` `else if` `else` 在一个函数中使用时，这些语句常常分担了划分界限的功能
     > 而在函数有返回值的情况下，被划分出来的界限中有为正常界限，而总存在与之相反非正常界限
+  - RustDoc
+    - [What is rustdoc?](https://doc.rust-lang.org/rustdoc/what-is-rustdoc.html)
+    - [【Rust日报】2021-01-14 rustdoc的性能有了很大的提升！](https://rustcc.cn/article?id=f27b49b2-7803-4011-9f4d-c924c152a0ab)
