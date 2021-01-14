@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-13 16:15:28
+ * @LastEditTime: 2021-01-14 10:57:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -54,7 +54,7 @@ fn main() {
                 if is_in_threedays() {
                     println_stderr!("3. ");
                     // println_stderr!("backup.nums ==1: {}",backup.nums ==1);
-                     if backup.nums ==2 { // 表示 1、2 存在
+                    if backup.nums ==2 { // 表示 1、2 存在
                         fs::rename("backup-2.json", "backup-3.json").expect("rename 2-3 failed");
                         fs::rename("backup-1.json", "backup-2.json").expect("rename 1-2 failed");
                         write_json(&message);
@@ -228,7 +228,32 @@ fn jugment_browser(message:&str){
 }
 #[allow(dead_code)]
 fn order_jugment(backup:Backup,browser:&str){
-    if backup.backup1 &&  is_in_threedays(browser){
+    if backup.backup1 {
+        if is_in_threedays(browser){
+            if backup.nums ==2 { // 表示 1、2 存在
+                fs::rename(format!("./{}/backup-2.json",browser), format!("./{}/backup-3.json",browser)).expect("rename 2-3 failed");
+                fs::rename(format!("./{}/backup-1.json",browser), format!("./{}/backup-2.json",browser)).expect("rename 1-2 failed");
+                // write_json(&message);
+                // println_stderr!("received 2 {}", message);
+            }
+            else if backup.nums == 3 {// 表示 1、2、3 存在
+                fs::remove_file(format!("./{}/backup-3.json",browser)).expect("remove backup-3 failed");
+                fs::rename(format!("./{}/backup-2.json",browser), format!("./{}/backup-3.json",browser)).expect("rename 2-3 failed");
+                fs::rename(format!("./{}/backup-1.json",browser), format!("./{}/backup-2.json",browser)).expect("rename 1-2 failed");
+                // write_json(&message);
+                // f.write_all(message.as_bytes()).expect("write file failed");
+                // println_stderr!("received 3 {}", message);
+            }
+            else{// 表示 1 存在
+                fs::rename(format!("./{}/backup-1.json",browser), format!("./{}/backup-2.json",browser)).expect("rename 1-2 failed");
+                // write_json(&message);
+                // println_stderr!("received 1 {}", message);
+            }
+        }
+    }
+    else{
+        // write_json(&message,);
+        // println_stderr!("received 4 {}", message);
 
     }
 
