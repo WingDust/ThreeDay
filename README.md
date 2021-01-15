@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-14 22:44:55
+ * @LastEditTime: 2021-01-15 10:41:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -10,6 +10,8 @@
   - 当出现 Chrome Crash 或者 操作系统 Crash 时，虽然在这二个情况下有 Chrome 本身的恢复，但是我还是会遇到一些不能恢复的情况，这样话我珍贵浏览后却没来得及归档的 Tab 就损失掉了。
   - 使用 Rust 原因，是为深入 Rust
 
+## 使用
+  1 . 如果将 TestWeb.exe 
 ## Mentaily
   - Chrome 在每一次创建与关闭一个 Tab 时，会将 Chrome 的所有窗口中所有 Tabs 以字符串数组的形式发送给 Rust 程序，再由 Rust 程序写成 JSON 文件
     - 关于保存的间隔与形式为一天中最新的 Tabs 状态将保存成一个 `backup-[].json` 形式文件，最多保留三天的状态。
