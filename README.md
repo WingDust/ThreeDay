@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-15 10:48:02
+ * @LastEditTime: 2021-01-15 15:37:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -11,8 +11,13 @@
   - 使用 Rust 原因，是为深入 Rust
 
 ## 使用
-  1. 如果将 TestWeb.exe 
-  2. as
+  - Windows：
+    - 放置本地程序
+      1. 将 TestWeb.exe 放入 D：盘下的 threeday 文件夹下，没有这个文件夹，就自行创建
+  - Linux：
+    - 放置本地程序
+      1. 将 TestWeb.exe 复制成2份分别各放入 `~/.mozilla/native-messaging-hosts/TestWeb.exe` `~/.config/google-chrome/NativeMessingHosts/TestWeb.exe`
+  - 
 ## Mentaily
   - Chrome 在每一次创建与关闭一个 Tab 时，会将 Chrome 的所有窗口中所有 Tabs 以字符串数组的形式发送给 Rust 程序，再由 Rust 程序写成 JSON 文件
     - 关于保存的间隔与形式为一天中最新的 Tabs 状态将保存成一个 `backup-[].json` 形式文件，最多保留三天的状态。
@@ -44,7 +49,47 @@
   - Rust
     - [chrmod/rust-webextension-protocol](https://github.com/chrmod/rust-webextension-protocol)
     - [serde-rs/serde](https://github.com/serde-rs/serde) 
+      - Rust 写入 JSON 文件
+      ```rust
+        let f =File::create("backup-1.json").expect("create backup-1 failed");
+      // f.write_all(message.as_bytes()).expect("write file failed");
+        let v:Value=serde_json::from_str("[1,2,3]").expect("trans json error");
+        // let v1 =serde_json::to_string(&v).unwrap();
+        serde_json::to_writer(&f, &v).expect("write json failed");
+      ```
     - [chronotope/chrono](https://github.com/chronotope/chrono)
+      - 引入包
+      ```rust
+      extern crate chrono ;
+      use chrono::prelude::*;
+      use std::time::SystemTime;//标准库中关于系统时间的库
+      ```
+      - 获取系统系统本地时间，它包含了时区
+      ```rust
+      let dt = Local::now();
+      println!("dt: {}", dt);
+      ```
+      - format SystemTime to String
+        - [How to format SystemTime to string?](https://stackoverflow.com/questions/45386585/how-to-format-systemtime-to-string)
+        - 仅打印日期。与转成日期格式，后设置时、分、秒再打印
+        ```rust
+        let metadata = fs::metadata("backup.json").expect("error");
+        let time = metadata.modified().expect("time error");
+        let t: DateTime<Local> = time.into(); //SystemTime 转 DateTime<Local>
+        // let t: DateTime<Utc> = time.into();
+        let t1 =t.date();//转成日期格式
+        println!("{}",t1.format("%d/%m/%Y"));//仅打印日期
+        println!("{}",t1.and_hms(0,0,0).format("%d/%m/%Y %T"));//后设置时、分、秒再打印
+        ```
+      - 如何比较两个时间不是同一天
+      ```rust
+      let s1 = dt.date().and_hms(0, 0, 0).timestamp();
+      let s2 = t.date().and_hms(0, 0, 0).timestamp();
+      // 将DateTime<Local>类型转成日期类型，再用 and_hms 转成DateTime<Local> 再用timestamp转成秒进行来比较
+      ```
+
+      - [Perform checked date and time calculations](https://rust-lang-nursery.github.io/rust-cookbook/datetime/duration.html#perform-checked-date-and-time-calculations)
+
 
 ## Chrome Extension
   - 编译 TypeScript
@@ -54,10 +99,14 @@
     - [消息传递](https://crxdoc-zh.appspot.com/extensions/messaging#external)
     - Debug Chrome Native Messaging
       - [chrome extension native message & native client](https://blog.csdn.net/weixin_36139431/article/details/98870250)
+        - `Chrome.exe --enable-logging`
 
 ## FireFox Webextension
   - FireFox  Webextension 使用 TypeScript 的声明文件，以及 Edge 的使用 TypeScript 的声明文件
     - [browser.d.ts dependency for Edge web extension APIs browser.runtime.* in typescript](https://stackoverflow.com/questions/43650517/browser-d-ts-dependency-for-edge-web-extension-apis-browser-runtime-in-typescr)
+
+## Github Markdown
+  - 在使用有序列表时，第一级会使用阿拉伯数字，第二级会使用罗马数字，第三级会使用英文字母
 ## Rust
   - Rust `if` `else if` `else`
     > `if` `else if` `else` 在一个函数中使用时，这些语句常常分担了划分界限的功能

@@ -3,7 +3,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-25 15:07:48
- * @LastEditTime: 2021-01-10 22:20:17
+ * @LastEditTime: 2021-01-15 11:15:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\background.ts
@@ -11,11 +11,14 @@
 // chrome 的 TypeScript声明文件地址：https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/chrome
 /// <reference path="./index.d.ts" />
 // deno-lint-ignore no-undef
-let port = chrome.runtime.connectNative('com.my_company.my_application');
+let port = chrome.runtime.connectNative('chrome_nativeMessaging');
 port.onMessage.addListener(function (msg) {
     console.log(msg);
 });
 // port.postMessage("[{as:1},2,3]");
+chrome.runtime.onInstalled.addListener(() => {
+    port.postMessage([1, 0]);
+});
 /**
 * 发出的数据都应该是字符串数组
 */
@@ -41,6 +44,7 @@ chrome.tabs.onRemoved.addListener(function () {
             for (const tab of all_tabs) {
                 all_urls.push(tab.url);
             }
+            all_urls.unshift("chrome");
             console.log(JSON.stringify(all_urls));
             port.postMessage(JSON.stringify(all_urls));
         }
@@ -72,6 +76,7 @@ chrome.tabs.onUpdated.addListener(function () {
             for (const tab of all_tabs) {
                 all_urls.push(tab.url);
             }
+            all_urls.unshift("chrome");
             console.log(JSON.stringify(all_urls));
             port.postMessage(JSON.stringify(all_urls));
         }
@@ -96,6 +101,7 @@ chrome.tabs.onCreated.addListener(function () {
             for (const tab of all_tabs) {
                 all_urls.push(tab.url);
             }
+            all_urls.unshift("chrome");
             console.log(JSON.stringify(all_urls));
             port.postMessage(JSON.stringify(all_urls));
         }

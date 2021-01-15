@@ -4,9 +4,9 @@
   "version":"1.0",
   "description":"保存三天中的浏览",
   "icons":{
-    "16":"../img/icon.png",
-    "32":"../img/icon.png",
-    "128":"../img/icon.png"
+    "16":"./img/icon.png",
+    "32":"./img/icon.png",
+    "128":"./img/icon.png"
   },
   "permissions":[
     "tabs",
@@ -18,7 +18,7 @@
     "persistent":false
   },
   "browser_action":{
-    "default_icon":"../img/icon.png",
+    "default_icon":"./img/icon.png",
     "default_titile":"chrome",
     "default_popup":"popup.html"
   }

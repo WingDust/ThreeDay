@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-25 15:07:48
- * @LastEditTime: 2021-01-13 12:27:53
+ * @LastEditTime: 2021-01-15 11:15:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\background.ts
@@ -13,7 +13,7 @@
 
 
 // deno-lint-ignore no-undef
-let port = chrome.runtime.connectNative('com.my_company.my_application');
+let port = chrome.runtime.connectNative('chrome_nativeMessaging');
 port.onMessage.addListener(function(msg){
     console.log(msg);
 })

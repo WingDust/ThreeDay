@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-15 10:34:57
+ * @LastEditTime: 2021-01-15 11:14:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -224,10 +224,10 @@ fn chrome_native_config(){
         serde_json::to_writer(&f, &v).expect("write json failed");
     }
     else if os == "linux" {
-        let f = File::create("~/.config/google-chrome/NativeMessingHosts/nativeMessaging.json").unwrap();
+        let f = File::create("~/.config/google-chrome/NativeMessingHosts/chrome_nativeMessaging.json").unwrap();
         let config_str=r#"
         {
-        "name":"com.my_company.my_application",
+        "name":"chrome_nativeMessaging",
         "description":"Chrome native messageing api example",
         "path":"~/.config/google-chrome/NativeMessingHosts/TestWeb.exe",
         "type":"stdio",
