@@ -19,9 +19,9 @@ port.onMessage.addListener(function(msg){
 })
 // port.postMessage("[{as:1},2,3]");
 
-chrome.runtime.onInstalled.addListener(()=>{
-    port.postMessage([1,0])
-})
+// chrome.runtime.onInstalled.addListener(()=>{
+//     port.postMessage([1,0])
+// })
 /**
 * 发出的数据都应该是字符串数组
 */

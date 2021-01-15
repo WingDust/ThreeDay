@@ -1,22 +1,23 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-15 15:37:24
+ * @LastEditTime: 2021-01-15 19:48:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
 -->
-## Reason:关于创建这个插件的理由
-  - 当出现 Chrome Crash 或者 操作系统 Crash or Reboot 时，虽然在这二个情况下有 Chrome 本身的恢复，但是我还是会遇到一些不能恢复的情况，这样话我珍贵浏览后却没来得及归档的 Tab 就损失掉了。
+## Reason：关于创建这个插件的理由
+  - 当出现 Chrome Crash 或者 操作系统 Crash or Reboot 时，虽然在这二个情况下有 Chrome 本身的恢复，但是我还是会遇到一些不能恢复的情况，这样话我珍贵浏览后却没来得及归档的 Tab 就损失掉了，浪费不少心血。
   - 使用 Rust 原因，是为深入 Rust
 
 ## 使用
   - Windows：
-    - 放置本地程序
-      1. 将 TestWeb.exe 放入 D：盘下的 threeday 文件夹下，没有这个文件夹，就自行创建
+    - 配置本地程序
+      1. 将 TestWeb.exe 和 saveFile.exe 放入 D：盘下的 threeday 文件夹下，没有这个文件夹，就自行创建
+      2. 右键以管理员身份运行 saveFile
   - Linux：
-    - 放置本地程序
-      1. 将 TestWeb.exe 复制成2份分别各放入 `~/.mozilla/native-messaging-hosts/TestWeb.exe` `~/.config/google-chrome/NativeMessingHosts/TestWeb.exe`
+    - 配置本地程序
+      1. 将 TestWeb 和 saveFile 复制成2份分别各放入 `~/.mozilla/native-messaging-hosts/TestWeb` `~/.config/google-chrome/NativeMessingHosts/TestWeb`
   - 
 ## Mentaily
   - Chrome 在每一次创建与关闭一个 Tab 时，会将 Chrome 的所有窗口中所有 Tabs 以字符串数组的形式发送给 Rust 程序，再由 Rust 程序写成 JSON 文件
@@ -57,6 +58,7 @@
         // let v1 =serde_json::to_string(&v).unwrap();
         serde_json::to_writer(&f, &v).expect("write json failed");
       ```
+      - [serde json 常用实践](https://blog.csdn.net/q435201823/article/details/108038755)
     - [chronotope/chrono](https://github.com/chronotope/chrono)
       - 引入包
       ```rust
@@ -107,6 +109,10 @@
 
 ## Github Markdown
   - 在使用有序列表时，第一级会使用阿拉伯数字，第二级会使用罗马数字，第三级会使用英文字母
+
+## Deno
+  - [deno 初体验，实战记录一个node项目迁移到deno需要做什么](https://cloud.tencent.com/developer/article/1640293)
+  - [Read a json file in Deno](https://www.seanmcp.com/articles/read-a-json-file-in-deno/)
 ## Rust
   - Rust `if` `else if` `else`
     > `if` `else if` `else` 在一个函数中使用时，这些语句常常分担了划分界限的功能

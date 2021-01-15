@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-15 15:36:40
+ * @LastEditTime: 2021-01-15 19:39:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -22,48 +22,48 @@ extern crate serde_json;
 use serde_json::Value;
 
 
-use std::io;
+// use std::io;
 use std::fs::File;
-// use std::io::prelude::*;
-// use byteorder::{NativeEndian};
-// use std::result::Result as StdResult;
-// use std::error::Error as StdError;
-// use std::result::Result ;
-// use std::error;
-// use std::str;
-
-// use std::io::{self, Read, Write};
-
-// use std::path::Path;
-
-///用来识别信息分流
-#[allow(dead_code)]
-enum MessageIdentify{
-    ChromeInstall(bool),
-    FirefoxInstall(bool),
-}
+// use std::process;
 
 fn main()  {
-
-        let  instream = io::stdin();
-        let mut input = String::new();
-        loop{
-            match instream.read_line(&mut input) {
-                 Ok(n) => {
-                    println!("{} bytes read", n);
-                    println!("{}", input);
-                }
-                Err(error) => println!("error: {}", error),
-            }
-        }
+    // option_to_native();
+    chrome_native_config();
+    firefox_native_config();
+    // let  instream = io::stdin();
+    // let mut input = String::new();
+    // loop{
+    //     match instream.read_line(&mut input) {
+    //             Ok(_n) => {
+    //             // println!("{} bytes read", n);
+    //             println!("请输入小写 q 退出程序");
+    //             if input == "q".to_string(){
+    //                 println!("退出程序");
+    //                 process::exit(1)
+    //             }
+    //             // println!("{}", input);
+    //         }
+    //         Err(error) => println!("error: {}", error),
+    //     }
+    // }
 }
 
+/* utils 函数 */
+#[allow(dead_code)]
+fn option_to_native(){
+    println!("
+    请通过输入序号
+    1. Chrome
+    2. Firefox
+    ");
+
+}
 
 /* utils 函数 */
 #[allow(dead_code)]
 fn chrome_native_config(){
     let os = jugment_os();
-    if os == "windows"   {
+    if os == "windows" {
         let hklm = RegKey::predef(HKEY_CURRENT_USER);
         let (key,disp) = hklm.create_subkey("SOFTWARE\\Google\\Chrome\\NativeMessagingHosts\\chrome_nativeMessaging").unwrap();
 
@@ -71,6 +71,7 @@ fn chrome_native_config(){
             REG_CREATED_NEW_KEY => println!("A new key has been created"),
             REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
         }
+        key.set_value("", &"D:\\threeday\\chrome_nativeMessaging.json").unwrap();
         let value:String = key.get_value("").unwrap();
         if value != "D:\\threeday\\chrome_nativeMessaging.json".to_string() {
             key.set_value("", &"D:\\threeday\\chrome_nativeMessaging.json").unwrap();
@@ -95,7 +96,7 @@ fn chrome_native_config(){
         {
         "name":"chrome_nativeMessaging",
         "description":"Chrome native messageing api example",
-        "path":"~/.config/google-chrome/NativeMessingHosts/TestWeb.exe",
+        "path":"~/.config/google-chrome/NativeMessingHosts/TestWeb",
         "type":"stdio",
         "allowed_origins":[
             "chrome-extension://fkdghlklbgmkokmgnoanmkedekgkckkp/"
@@ -142,7 +143,7 @@ fn firefox_native_config(){
         {
         "name":"firefox_nativeMessaging",
         "description":"Firefox native messageing api example",
-        "path":"~/.mozilla/native-messaging-hosts/TestWeb.exe",
+        "path":"~/.mozilla/native-messaging-hosts/TestWeb",
         "type":"stdio",
         "allowed_extensions":["threeday@wingdust.com"]
         }"#;
@@ -166,7 +167,6 @@ fn write_json(message:&str,path:&str){
 #[allow(dead_code)]
 fn jugment_os()->&'static str{
     if cfg!(target_os = "windows"){
-        println!("windows");
         "windows"
     }
     else if cfg!(target_os = "linux"){

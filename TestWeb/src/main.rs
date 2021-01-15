@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-15 11:14:00
+ * @LastEditTime: 2021-01-15 17:16:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -19,9 +19,9 @@ extern crate chrono;
 use chrono::prelude::*;
 
 
-extern crate winreg;
-use winreg::enums::*;
-use winreg::RegKey;
+// extern crate winreg;
+// use winreg::enums::*;
+// use winreg::RegKey;
 
 use std::fs;
 use std::fs::File;
@@ -39,9 +39,7 @@ struct Backup{
 ///用来识别信息分流
 #[allow(dead_code)]
 enum MessageIdentify{
-    ChromeInstall(bool),
     ChromeTabs(bool),
-    FirefoxInstall(bool),
     FirefoxTabs(bool)
 }
 
@@ -70,8 +68,6 @@ fn main() {
 fn runtime(message:&str){
     let message_result:MessageIdentify = jugment_browser_message(message).unwrap();
     match  message_result {
-        MessageIdentify::ChromeInstall(true)=>{chrome_native_config();},
-        MessageIdentify::FirefoxInstall(true)=>{firefox_native_config();}, 
         MessageIdentify::ChromeTabs(true)=>{order_jugment( "chrome", message);},
         MessageIdentify::FirefoxTabs(true)=>{order_jugment( "firefox", message);},
         _=>{}
@@ -85,14 +81,7 @@ fn runtime(message:&str){
 fn jugment_browser_message(message:&str) ->Option<MessageIdentify> {
     let v:Value=serde_json::from_str(message).expect("trans json error");
     let first_v=v.get(0).unwrap();
-    let second_v=v.get(1).unwrap();
-    if  first_v==1{                 //表明这个消息是来自 Chrome  Installed消息
-        Some(MessageIdentify::ChromeInstall(true))
-    }
-    else if second_v == 1{          //表明这个消息是来自 FireFox Installed消息
-        Some(MessageIdentify::FirefoxInstall(true)) 
-    }
-    else if  first_v == "chrome"{   //表明这个消息是来自 Chrome  Tabs消息
+    if  first_v == "chrome"{   //表明这个消息是来自 Chrome  Tabs消息
         Some(MessageIdentify::ChromeTabs(true))
     }
     else if first_v == "firefox"{   //表明这个消息是来自 FireFox Tabs消息
@@ -175,113 +164,6 @@ fn is_in_threedays(browser:&str) ->bool{
         return true
     }else{
         return false
-    }
-}
-
-/* utils 函数 */
-/// 判断当前运行环境的操作系统
-#[allow(dead_code)]
-fn jugment_os()->&'static str{
-    if cfg!(target_os = "windows"){
-        "windows"
-    }
-    else if cfg!(target_os = "linux"){
-        "linux"
-    }
-    else{
-        "non-windows or linux"
-    }
-}
-
-/* utils 函数 */
-#[allow(dead_code)]
-fn chrome_native_config(){
-    let os = jugment_os();
-    if os == "windows"   {
-        let hklm = RegKey::predef(HKEY_CURRENT_USER);
-        let (key,disp) = hklm.create_subkey("SOFTWARE\\Google\\Chrome\\NativeMessagingHosts\\chrome_nativeMessaging").unwrap();
-
-        match disp {
-            REG_CREATED_NEW_KEY => println!("A new key has been created"),
-            REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
-        }
-        let value:String = key.get_value("").unwrap();
-        if value != "D:\\threeday\\chrome_nativeMessaging.json".to_string() {
-            key.set_value("", &"D:\\threeday\\chrome_nativeMessaging.json").unwrap();
-        }
-        let f = File::create("D:\\threeday\\chrome_nativeMessaging.json").unwrap();
-        let config_str=r#"
-        {
-        "name":"chrome_nativeMessaging",
-        "description":"Chrome native messageing api example",
-        "path":"D:\\threeday\\TestWeb.exe",
-        "type":"stdio",
-        "allowed_origins":[
-            "chrome-extension://fkdghlklbgmkokmgnoanmkedekgkckkp/"
-        ]
-        }"#;
-        let v:Value =serde_json::from_str(config_str).unwrap();
-        serde_json::to_writer(&f, &v).expect("write json failed");
-    }
-    else if os == "linux" {
-        let f = File::create("~/.config/google-chrome/NativeMessingHosts/chrome_nativeMessaging.json").unwrap();
-        let config_str=r#"
-        {
-        "name":"chrome_nativeMessaging",
-        "description":"Chrome native messageing api example",
-        "path":"~/.config/google-chrome/NativeMessingHosts/TestWeb.exe",
-        "type":"stdio",
-        "allowed_origins":[
-            "chrome-extension://fkdghlklbgmkokmgnoanmkedekgkckkp/"
-        ]
-        }"#;
-        let v:Value =serde_json::from_str(config_str).unwrap();
-        serde_json::to_writer(&f, &v).expect("write json failed");
-    }
-}
-
-/* utils 函数 */
-#[allow(dead_code)]
-fn firefox_native_config(){
-    let os = jugment_os();
-    if os == "windows"   {
-        let hklm = RegKey::predef(HKEY_CURRENT_USER);
-        let (_key,disp) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\com.my_application").unwrap();
-
-        match disp {
-            REG_CREATED_NEW_KEY => println!("A new key has been created"),
-            REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
-        }
-        let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
-        let (_key2,disp2) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\com.my_application").unwrap();
-        match disp2 {
-            REG_CREATED_NEW_KEY => println!("A new key has been created"),
-            REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
-        }
-        let f = File::create("D:\\threeday\\firefox_nativeMessaging.json").unwrap();
-        let config_str=r#"
-        {
-        "name":"firefox_nativeMessaging",
-        "description":"Firefox native messageing api example",
-        "path":"D:\\threeday\\TestWeb.exe",
-        "type":"stdio",
-        "allowed_extensions":["threeday@wingdust.com"]
-        }"#;
-        let v:Value =serde_json::from_str(config_str).unwrap();
-        serde_json::to_writer(&f, &v).expect("write json failed");
-    }
-    else if os == "linux" {
-        let f = File::create("~/.mozilla/native-messaging-hosts/firefox_nativeMessaging.json").unwrap();
-        let config_str=r#"
-        {
-        "name":"firefox_nativeMessaging",
-        "description":"Firefox native messageing api example",
-        "path":"~/.mozilla/native-messaging-hosts/TestWeb.exe",
-        "type":"stdio",
-        "allowed_extensions":["threeday@wingdust.com"]
-        }"#;
-        let v:Value =serde_json::from_str(config_str).unwrap();
-        serde_json::to_writer(&f, &v).expect("write json failed");
     }
 }
 
