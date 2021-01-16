@@ -5,9 +5,9 @@
   "version":"1.0",
   "description":"保存三天中的浏览",
   "icons":{
-    "16":"./img/icon.png",
-    "32":"./img/icon.png",
-    "128":"./img/icon.png"
+    "16":"./img/spider_16.png",
+    "32":"./img/spider_32.png",
+    "128":"./img/spider_128.png"
   },
   "permissions":[
     "tabs",
@@ -18,11 +18,10 @@
   },
   "applications":{
     "gecko":{
-      "id":"threeday@wingdust.com",
-      "strict_min_version":"50.0"
+      "id":"threeday@wingdust.com"
     }
   },
   "browser_action":{
-    "default_icon":"./img/icon.png"
+    "default_icon":"./img/spider.png"
   }
 }

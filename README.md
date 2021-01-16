@@ -1,13 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-15 19:48:37
+ * @LastEditTime: 2021-01-16 13:08:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
 -->
 ## Reason：关于创建这个插件的理由
-  - 当出现 Chrome Crash 或者 操作系统 Crash or Reboot 时，虽然在这二个情况下有 Chrome 本身的恢复，但是我还是会遇到一些不能恢复的情况，这样话我珍贵浏览后却没来得及归档的 Tab 就损失掉了，浪费不少心血。
+  -虽然有 FireFox Chrome 本身的恢复，但是还是会遇到一些不能恢复的情况，出现 FireFox Chrome Crash 或者 操作系统 Crash or Reboot 时，这样话我珍贵浏览后却没来得及归档的 Tab 就损失掉了，浪费不少心血。它会保存三天中最新使用 Tab 的浏览记录于本地。
   - 使用 Rust 原因，是为深入 Rust
 
 ## 使用
@@ -49,6 +49,7 @@
 ## 依赖
   - Rust
     - [chrmod/rust-webextension-protocol](https://github.com/chrmod/rust-webextension-protocol)
+    - []()
     - [serde-rs/serde](https://github.com/serde-rs/serde) 
       - Rust 写入 JSON 文件
       ```rust
@@ -120,3 +121,9 @@
   - RustDoc
     - [What is rustdoc?](https://doc.rust-lang.org/rustdoc/what-is-rustdoc.html)
     - [【Rust日报】2021-01-14 rustdoc的性能有了很大的提升！](https://rustcc.cn/article?id=f27b49b2-7803-4011-9f4d-c924c152a0ab)
+
+## 发布
+  - Chrome Extension 发布需要以五美元注册开发者
+
+## License
+  MIT LICENSE

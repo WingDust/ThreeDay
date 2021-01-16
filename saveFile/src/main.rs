@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-15 19:39:09
+ * @LastEditTime: 2021-01-15 20:01:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -113,14 +113,14 @@ fn firefox_native_config(){
     let os = jugment_os();
     if os == "windows"   {
         let hklm = RegKey::predef(HKEY_CURRENT_USER);
-        let (_key,disp) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\com.my_application").unwrap();
+        let (_key,disp) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\firefox_nativeMessaging").unwrap();
 
         match disp {
             REG_CREATED_NEW_KEY => println!("A new key has been created"),
             REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
         }
         let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
-        let (_key2,disp2) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\com.my_application").unwrap();
+        let (_key2,disp2) = hklm.create_subkey("SOFTWARE\\Mozilla\\NativeMessagingHosts\\firefox_nativeMessaging").unwrap();
         match disp2 {
             REG_CREATED_NEW_KEY => println!("A new key has been created"),
             REG_OPENED_EXISTING_KEY => println!("An existing key has been opened"),
