@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-10 12:45:56
- * @LastEditTime: 2021-01-15 17:15:26
+ * @LastEditTime: 2021-01-17 18:33:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\firefox\background.ts
@@ -10,7 +10,7 @@
 // Firefox 的 TypeScript声明文件地址：https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/firefox-webext-browser/index.d.ts
 /// <reference path="./index.d.ts" />
 
-let port_firefox = browser.runtime.connectNative("com.my_application");
+let port_firefox = browser.runtime.connectNative("com.wingdust.threeday");
 port_firefox .onMessage.addListener((msg) =>{
     console.log(msg);
 })
