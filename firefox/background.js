@@ -2,7 +2,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-10 12:45:56
- * @LastEditTime: 2021-01-13 12:20:12
+ * @LastEditTime: 2021-01-15 17:15:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\firefox\background.ts
@@ -26,10 +26,10 @@ port_firefox.onDisconnect.addListener((msg) => {
     console.log("Received: " + JSON.stringify(browser.runtime.lastError));
     console.log("Received: " + JSON.stringify(msg));
 });
-browser.runtime.onInstalled.addListener((msg) => {
-    console.log(msg);
-    port_firefox.postMessage([0, 1]);
-});
+// browser.runtime.onInstalled.addListener((msg)=>{
+//     console.log(msg);
+//     port_firefox.postMessage([0,1])
+// })
 browser.tabs.onCreated.addListener(function () {
     return __awaiter(this, void 0, void 0, function* () {
         let all_urls = [];

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-16 13:08:15
+ * @LastEditTime: 2021-01-17 16:48:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -34,7 +34,7 @@
   - [x] 插件名
     - Three Day
   - [ ] Linux Browser Test
-  - [ ] 在同一台电脑下的即使用 Chrome 又使用 FireFox 对它们的保存路径的设置
+  - [x] 在同一台电脑下的即使用 Chrome 又使用 FireFox 对它们的保存路径的设置
 
 ## Developer Attention
   - 配置文件的位置
@@ -42,9 +42,6 @@
     - Linux 为用户文件
     - 清单文件与应用程序文件应放到同一个文件下
   - 对传入的消息识别处理
-    - 当扩展被第一次安装时，或更新时会传入信息，表明扩展已安装，用来继续后面的配置
-      - Chrome  为 `[1，0]`
-      - FireFox 为 `[0, 1]`
 
 ## 依赖
   - Rust
@@ -103,6 +100,7 @@
     - Debug Chrome Native Messaging
       - [chrome extension native message & native client](https://blog.csdn.net/weixin_36139431/article/details/98870250)
         - `Chrome.exe --enable-logging`
+    - 原生程序的清单文件的 name 中好像不能使用大写
 
 ## FireFox Webextension
   - FireFox  Webextension 使用 TypeScript 的声明文件，以及 Edge 的使用 TypeScript 的声明文件
@@ -121,6 +119,9 @@
   - RustDoc
     - [What is rustdoc?](https://doc.rust-lang.org/rustdoc/what-is-rustdoc.html)
     - [【Rust日报】2021-01-14 rustdoc的性能有了很大的提升！](https://rustcc.cn/article?id=f27b49b2-7803-4011-9f4d-c924c152a0ab)
+  - 交叉编译
+    - 放弃
+  - 条件编译
 
 ## 发布
   - Chrome Extension 发布需要以五美元注册开发者

@@ -3,7 +3,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-25 15:07:48
- * @LastEditTime: 2021-01-15 11:15:06
+ * @LastEditTime: 2021-01-17 17:33:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\background.ts
@@ -11,21 +11,18 @@
 // chrome 的 TypeScript声明文件地址：https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/chrome
 /// <reference path="./index.d.ts" />
 // deno-lint-ignore no-undef
-let port = chrome.runtime.connectNative('chrome_nativeMessaging');
+let port = chrome.runtime.connectNative('com.chrome.nativemessaging');
 port.onMessage.addListener(function (msg) {
     console.log(msg);
 });
-// port.postMessage("[{as:1},2,3]");
-chrome.runtime.onInstalled.addListener(() => {
-    port.postMessage([1, 0]);
-});
+port.postMessage(["chrome", { as: 1 }, 2, 3]);
+// chrome.runtime.onInstalled.addListener(()=>{
+//     port.postMessage([1,0])
+// })
 /**
 * 发出的数据都应该是字符串数组
 */
 chrome.tabs.onRemoved.addListener(function () {
-    // chrome.tabs.query({currentWindow:true},function(tabs){
-    //     console.log(tabs);
-    // })
     let all_urls = [];
     chrome.windows.getAll({ populate: true }, function (windows) {
         if (windows.length == 1) { //当窗口为 1 个的时候
@@ -33,8 +30,9 @@ chrome.tabs.onRemoved.addListener(function () {
             for (const tab of windows[0].tabs) {
                 all_urls.push(tab.url);
             }
-            console.log(JSON.stringify(all_urls));
-            port.postMessage(JSON.stringify(all_urls));
+            all_urls.unshift("chrome");
+            console.log(all_urls); //传信息不需要转成JSON字符串
+            port.postMessage(all_urls);
         }
         else { //当窗口不为 1 个的时候
             let all_tabs = [];
@@ -45,8 +43,8 @@ chrome.tabs.onRemoved.addListener(function () {
                 all_urls.push(tab.url);
             }
             all_urls.unshift("chrome");
-            console.log(JSON.stringify(all_urls));
-            port.postMessage(JSON.stringify(all_urls));
+            console.log(all_urls); //传信息不需要转成JSON字符串
+            port.postMessage(all_urls);
         }
     });
     // [The chrome.fileSystem API is available to Chrome apps, but not to Chrome extensions]https://javascriptio.com/view/4907510/uncaught-typeerror-cannot-read-property-chooseentry-of-undefined-while-developing-a-chrome-extension-using-filesystem-api)
@@ -65,8 +63,9 @@ chrome.tabs.onUpdated.addListener(function () {
             for (const tab of windows[0].tabs) {
                 all_urls.push(tab.url);
             }
-            console.log(JSON.stringify(all_urls));
-            port.postMessage(JSON.stringify(all_urls));
+            all_urls.unshift("chrome");
+            console.log(all_urls); //传信息不需要转成JSON字符串
+            port.postMessage(all_urls);
         }
         else { //当窗口不为 1 个的时候
             let all_tabs = [];
@@ -77,8 +76,9 @@ chrome.tabs.onUpdated.addListener(function () {
                 all_urls.push(tab.url);
             }
             all_urls.unshift("chrome");
-            console.log(JSON.stringify(all_urls));
-            port.postMessage(JSON.stringify(all_urls));
+            // console.log(JSON.stringify(all_urls))
+            console.log(all_urls); //传信息不需要转成JSON字符串
+            port.postMessage(all_urls);
         }
     });
 });
@@ -90,8 +90,9 @@ chrome.tabs.onCreated.addListener(function () {
             for (const tab of windows[0].tabs) {
                 all_urls.push(tab.url);
             }
-            console.log(JSON.stringify(all_urls));
-            port.postMessage(JSON.stringify(all_urls));
+            all_urls.unshift("chrome");
+            console.log(all_urls); //传信息不需要转成JSON字符串
+            port.postMessage(all_urls);
         }
         else { //当窗口不为 1 个的时候
             let all_tabs = [];
@@ -102,16 +103,8 @@ chrome.tabs.onCreated.addListener(function () {
                 all_urls.push(tab.url);
             }
             all_urls.unshift("chrome");
-            console.log(JSON.stringify(all_urls));
-            port.postMessage(JSON.stringify(all_urls));
+            console.log(all_urls); //传信息不需要转成JSON字符串
+            port.postMessage(all_urls);
         }
     });
 });
-// chrome.runtime.onStartup.addListener(function(){
-//     let port = chrome.runtime.connectNative('com.my_company.my_application');
-// })
-// chrome.runtime
-// chrome.app.runtime.onLaunched.addListener(function(){
-// console.log('launch');
-// })
-// chrome.fileSystemProvider
