@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-04 13:05:37
- * @LastEditTime: 2021-01-15 17:16:21
+ * @LastEditTime: 2021-01-17 18:07:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\TestWeb\src\main.rs
@@ -116,11 +116,14 @@ fn order_jugment(browser:&str,message:&str){
                 // f.write_all(message.as_bytes()).expect("write file failed");
                 // println_stderr!("received 3 {}", message);
             }
-            else{// 表示 1 存在
+            else{
                 fs::rename(format!("./{}/backup-1.json",browser), format!("./{}/backup-2.json",browser)).expect("rename 1-2 failed");
                 write_json(message,browser);
                 // println_stderr!("received 1 {}", message);
             }
+        }
+        else{
+            write_json(message,browser);
         }
     }
     else{
