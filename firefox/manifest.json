@@ -2,7 +2,7 @@
 {
   "manifest_version":2,
   "name":"Three Day",
-  "version":"1.0",
+  "version":"1.0.1",
   "description":"保存三天中的浏览",
   "icons":{
     "16":"./img/spider_16.png",
