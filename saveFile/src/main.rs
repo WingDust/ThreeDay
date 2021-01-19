@@ -1,16 +1,19 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-17 20:52:39
+ * @LastEditTime: 2021-01-19 18:43:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
  */
 
-extern crate winreg;
-use winreg::enums::*;
-use winreg::RegKey;
 
+#[cfg(target_os="windows")]
+extern crate winreg;
+#[cfg(target_os="windows")]
+use winreg::enums::*;
+#[cfg(target_os="windows")]
+use winreg::RegKey;
 
 // extern crate chrono ;
 // use chrono::prelude::*;
@@ -22,8 +25,9 @@ extern crate serde_json;
 use serde_json::Value;
 
 
-// use std::io;
+use std::fs;
 use std::fs::File;
+use std::path::Path;
 // use std::process;
 
 fn main()  {
@@ -63,6 +67,7 @@ fn option_to_native(){
 #[allow(dead_code)]
 #[cfg(target_os="windows")]
 fn chrome_native_config(){
+
     let hklm = RegKey::predef(HKEY_CURRENT_USER);
     let (key,disp) = hklm.create_subkey("SOFTWARE\\Google\\Chrome\\NativeMessagingHosts\\chrome_nativeMessaging").unwrap();
 
@@ -171,6 +176,17 @@ fn write_json(message:&str,path:&str){
     serde_json::to_writer(&f, &v).expect("write json failed");
 }
 
+#[allow(dead_code)]
+fn writefile(path:&str){
+    let ancestors = Path::new(path).ancestors();
+    for i in ancestors {
+        if i.is_dir(){
+            fs::create_dir_all(i).unwrap();
+        }
+    }
+    // if path.is_relative(){
+    // }
+}
 
 /// 判断当前运行环境的操作系统
 #[allow(dead_code)]

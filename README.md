@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-17 16:48:05
+ * @LastEditTime: 2021-01-18 21:45:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -105,6 +105,7 @@
 ## FireFox Webextension
   - FireFox  Webextension 使用 TypeScript 的声明文件，以及 Edge 的使用 TypeScript 的声明文件
     - [browser.d.ts dependency for Edge web extension APIs browser.runtime.* in typescript](https://stackoverflow.com/questions/43650517/browser-d-ts-dependency-for-edge-web-extension-apis-browser-runtime-in-typescr)
+  - 在提交 Add-on 时，manifest.json 中的 version 决定了提交时的版本。
 
 ## Github Markdown
   - 在使用有序列表时，第一级会使用阿拉伯数字，第二级会使用罗马数字，第三级会使用英文字母
