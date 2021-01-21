@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-18 21:45:25
+ * @LastEditTime: 2021-01-21 17:51:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\README.md
@@ -91,6 +91,9 @@
       - [Perform checked date and time calculations](https://rust-lang-nursery.github.io/rust-cookbook/datetime/duration.html#perform-checked-date-and-time-calculations)
 
 
+    - 获取 Linux Home 变量
+      - Reference
+        - [参考 dirs-sys-rs 源码](https://github.com/dirs-dev/dirs-sys-rs/blob/main/src/lib.rs#L31)
 ## Chrome Extension
   - 编译 TypeScript
     - `$ tsc`

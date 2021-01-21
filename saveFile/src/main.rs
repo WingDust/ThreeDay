@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-21 15:08:23
+ * @LastEditTime: 2021-01-21 21:24:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -28,6 +28,9 @@ use serde_json::Value;
 use std::fs;
 use std::fs::File;
 use std::path::Path;
+
+use std::env;
+use std::ffi::OsString;
 // use std::process;
 
 fn main()  {
@@ -169,14 +172,24 @@ fn  firefox_native_config(){
 
 #[allow(dead_code)]
 fn writefile(path:&str){
-    let ancestors = Path::new(path).ancestors();
-    for i in ancestors {
-        if i.is_dir(){
-            fs::create_dir_all(i).unwrap();
-        }
-    }
+    let mut ancestors = Path::new(path).ancestors();
+    let _p = ancestors.next().unwrap();
+    let p = ancestors.next().unwrap();
+    fs::create_dir_all(p).unwrap();
+    // for i in ancestors {
+    //     if i.is_dir(){
+    //         fs::create_dir_all(i).unwrap();
+    //     }
+    // }
     // if path.is_relative(){
     // }
+}
+
+#[allow(dead_code)]
+#[cfg(target_os="linux")]
+fn home_dir() -> OsString{
+    return env::var_os("HOME")
+        .and_then(|h|if h.is_empty(){None}else{Some(h)}).unwrap();
 }
 
 /// 判断当前运行环境的操作系统
