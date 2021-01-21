@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-19 18:43:49
+ * @LastEditTime: 2021-01-21 15:08:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -54,17 +54,6 @@ fn main()  {
 
 /* utils 函数 */
 #[allow(dead_code)]
-fn option_to_native(){
-    println!("
-    请通过输入序号
-    1. Chrome
-    2. Firefox
-    ");
-
-}
-
-/* utils 函数 */
-#[allow(dead_code)]
 #[cfg(target_os="windows")]
 fn chrome_native_config(){
 
@@ -80,7 +69,10 @@ fn chrome_native_config(){
     if value != "D:\\threeday\\chrome_nativeMessaging.json".to_string() {
         key.set_value("", &"D:\\threeday\\chrome_nativeMessaging.json").unwrap();
     }
-    let f = File::create("D:\\threeday\\chrome_nativeMessaging.json").unwrap();
+
+    let path = "D:\\threeday\\chrome_nativeMessaging.json";
+    writefile(path);
+    let f = File::open(path).unwrap();
     let config_str=r#"
     {
     "name":"com.chrome.nativemessaging",
@@ -97,7 +89,9 @@ fn chrome_native_config(){
 
 #[cfg(target_os="linux")]
 fn chrome_native_config(){
-    let f = File::create("~/.config/google-chrome/NativeMessingHosts/chrome_nativeMessaging.json").unwrap();
+    let path = "~/.config/google-chrome/NativeMessingHosts/chrome_nativeMessaging.json";
+    writefile(path);
+    let f = File::open(path).unwrap();
     let config_str=r#"
     {
     "name":"chrome_nativeMessaging",
@@ -138,7 +132,10 @@ fn firefox_native_config(){
     if value2 != "D:\\threeday\\firefox_nativeMessaging.json".to_string() {
         key2.set_value("", &"D:\\threeday\\firefox_nativeMessaging.json").unwrap();
     }
-    let f = File::create("D:\\threeday\\firefox_nativeMessaging.json").unwrap();
+
+    let path = "D:\\threeday\\firefox_nativeMessaging.json";
+    writefile(path);
+    let f = File::open(path).unwrap();
     let config_str=r#"
     {
     "name":"com.wingdust.threeday",
@@ -153,7 +150,9 @@ fn firefox_native_config(){
 
 #[cfg(target_os="linux")]
 fn  firefox_native_config(){
-    let f = File::create("~/.mozilla/native-messaging-hosts/firefox_nativeMessaging.json").unwrap();
+    let path = "~/.mozilla/native-messaging-hosts/firefox_nativeMessaging.json";
+    writefile(path);
+    let f = File::open(path).unwrap();
     let config_str=r#"
     {
     "name":"firefox_nativeMessaging",
@@ -167,14 +166,6 @@ fn  firefox_native_config(){
 
 }
 
-
-/* utils 函数 */
-#[allow(dead_code)]
-fn write_json(message:&str,path:&str){
-    let  f =File::create(format!("./{}/backup-1.json",path)).expect("create backup-1 failed");
-    let v:Value=serde_json::from_str(message).expect("trans json error");
-    serde_json::to_writer(&f, &v).expect("write json failed");
-}
 
 #[allow(dead_code)]
 fn writefile(path:&str){
@@ -201,4 +192,16 @@ fn jugment_os()->&'static str{
     else{
         "non-windows or linux"
     }
+}
+
+
+/* utils 函数 */
+#[allow(dead_code)]
+fn option_to_native(){
+    println!("
+    请通过输入序号
+    1. Chrome
+    2. Firefox
+    ");
+
 }
