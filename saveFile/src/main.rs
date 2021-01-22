@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-21 21:24:03
+ * @LastEditTime: 2021-01-22 11:40:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -29,7 +29,9 @@ use std::fs;
 use std::fs::File;
 use std::path::Path;
 
+#[cfg(target_os="linux")]
 use std::env;
+#[cfg(target_os="linux")]
 use std::ffi::OsString;
 // use std::process;
 
@@ -92,7 +94,7 @@ fn chrome_native_config(){
 
 #[cfg(target_os="linux")]
 fn chrome_native_config(){
-    let path = "~/.config/google-chrome/NativeMessingHosts/chrome_nativeMessaging.json";
+    let path = home_dir().into_string() + "/.config/google-chrome/NativeMessingHosts/chrome_nativeMessaging.json";
     writefile(path);
     let f = File::open(path).unwrap();
     let config_str=r#"
@@ -153,7 +155,8 @@ fn firefox_native_config(){
 
 #[cfg(target_os="linux")]
 fn  firefox_native_config(){
-    let path = "~/.mozilla/native-messaging-hosts/firefox_nativeMessaging.json";
+    let path = home_dir().into_string() + "/.mozilla/native-messaging-hosts/firefox_nativeMessaging.json";
+
     writefile(path);
     let f = File::open(path).unwrap();
     let config_str=r#"
@@ -176,12 +179,11 @@ fn writefile(path:&str){
     let _p = ancestors.next().unwrap();
     let p = ancestors.next().unwrap();
     fs::create_dir_all(p).unwrap();
+    File::create(path).unwrap();
     // for i in ancestors {
     //     if i.is_dir(){
     //         fs::create_dir_all(i).unwrap();
     //     }
-    // }
-    // if path.is_relative(){
     // }
 }
 
