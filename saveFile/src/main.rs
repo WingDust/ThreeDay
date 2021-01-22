@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-22 11:51:53
+ * @LastEditTime: 2021-01-22 12:55:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -27,6 +27,8 @@ use serde_json::Value;
 
 use std::fs;
 use std::fs::File;
+#[cfg(target_os="linux")]
+use std::fs::OpenOptions;
 use std::path::Path;
 
 #[cfg(target_os="linux")]
@@ -96,7 +98,8 @@ fn chrome_native_config(){
 fn chrome_native_config(){
     let path = home_dir().into_string().unwrap() + "/.config/google-chrome/NativeMessagingHosts/chrome_nativeMessaging.json";
     writefile(&path);
-    let f = File::open(path).unwrap();
+    // let f = File::open(path).unwrap();
+    let f = OpenOptions::new().write(true).open(path).unwrap();
     let config_str=r#"
     {
     "name":"chrome_nativeMessaging",
@@ -158,7 +161,7 @@ fn  firefox_native_config(){
     let path = home_dir().into_string().unwrap() + "/.mozilla/native-messaging-hosts/firefox_nativeMessaging.json";
 
     writefile(&path);
-    let f = File::open(path).unwrap();
+    let f = OpenOptions::new().write(true).open(path).unwrap();
     let config_str=r#"
     {
     "name":"firefox_nativeMessaging",
