@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-22 11:47:37
+ * @LastEditTime: 2021-01-22 11:51:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -94,14 +94,14 @@ fn chrome_native_config(){
 
 #[cfg(target_os="linux")]
 fn chrome_native_config(){
-    let path = home_dir().into_string().unwrap() + "/.config/google-chrome/NativeMessingHosts/chrome_nativeMessaging.json";
+    let path = home_dir().into_string().unwrap() + "/.config/google-chrome/NativeMessagingHosts/chrome_nativeMessaging.json";
     writefile(&path);
     let f = File::open(path).unwrap();
     let config_str=r#"
     {
     "name":"chrome_nativeMessaging",
     "description":"Chrome native messageing api example",
-    "path":"~/.config/google-chrome/NativeMessingHosts/TestWeb",
+    "path":"~/.config/google-chrome/NativeMessagingHosts/TestWeb",
     "type":"stdio",
     "allowed_origins":[
         "chrome-extension://fkdghlklbgmkokmgnoanmkedekgkckkp/"
