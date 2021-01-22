@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-28 17:53:16
- * @LastEditTime: 2021-01-22 11:40:36
+ * @LastEditTime: 2021-01-22 11:43:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \chrome_extension\saveFile\src\main.rs
@@ -94,7 +94,7 @@ fn chrome_native_config(){
 
 #[cfg(target_os="linux")]
 fn chrome_native_config(){
-    let path = home_dir().into_string() + "/.config/google-chrome/NativeMessingHosts/chrome_nativeMessaging.json";
+    let path = home_dir().into_string().unwrap() + "/.config/google-chrome/NativeMessingHosts/chrome_nativeMessaging.json";
     writefile(path);
     let f = File::open(path).unwrap();
     let config_str=r#"
@@ -155,7 +155,7 @@ fn firefox_native_config(){
 
 #[cfg(target_os="linux")]
 fn  firefox_native_config(){
-    let path = home_dir().into_string() + "/.mozilla/native-messaging-hosts/firefox_nativeMessaging.json";
+    let path = home_dir().into_string().unwrap() + "/.mozilla/native-messaging-hosts/firefox_nativeMessaging.json";
 
     writefile(path);
     let f = File::open(path).unwrap();
