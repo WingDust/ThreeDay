@@ -1,9 +1,9 @@
 {
     "name":"com.my_company.my_application",
     "description":"Chrome native messageing api example",
-    "path":"C:\\Users\\Administrator\\Desktop\\chrome_extension\\TestWeb\\target\\debug\\TestWeb.exe",
+    "path":"h:/ElectronProject/chrome_extension/TestWeb/target/debug/TestWeb.exe",
     "type":"stdio",
     "allowed_origins":[
-        "chrome-extension://fkdghlklbgmkokmgnoanmkedekgkckkp/"
+        "chrome-extension://jmgbghjmamjbeemndamhajgjnkmianni/"
     ]
 }

@@ -1,14 +1,14 @@
-<!--
- * @Author: your name
- * @Date: 2020-12-29 13:56:09
- * @LastEditTime: 2021-01-21 17:51:10
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \chrome_extension\README.md
--->
 ## Reason：关于创建这个插件的理由
-  -虽然有 FireFox Chrome 本身的恢复，但是还是会遇到一些不能恢复的情况，出现 FireFox Chrome Crash 或者 操作系统 Crash or Reboot 时，这样话我珍贵浏览后却没来得及归档的 Tab 就损失掉了，浪费不少心血。它会保存三天中最新使用 Tab 的浏览记录于本地。
-  - 使用 Rust 原因，是为深入 Rust
+### FireFox Chrome 损失标签页的情况
+> 虽然有 FireFox Chrome 本身的恢复，但是还是会遇到一些不能恢复的情况，这样话珍贵浏览后却没来得及归档的 Tab 就损失掉了，浪费不少心血。
+- 出现 FireFox Chrome Crash 或者 操作系统 Crash or Reboot 时
+- 使用着别的标签页管理工具，如 one-tab better-onetab 当它们一键收集标签页时这个过程是存在可能收集了但没有成功显示的情况的，这个情况也是很难复原的
+  - Session Buddy 算是一个解决方案
+
+
+## threeday
+- 它会保存三天中最新使用 Tab 的浏览记录于本地
+- 使用 Rust 原因，是为深入 Rust
 
 ## 使用
   - Windows：
@@ -110,8 +110,6 @@
     - [browser.d.ts dependency for Edge web extension APIs browser.runtime.* in typescript](https://stackoverflow.com/questions/43650517/browser-d-ts-dependency-for-edge-web-extension-apis-browser-runtime-in-typescr)
   - 在提交 Add-on 时，manifest.json 中的 version 决定了提交时的版本。
 
-## Github Markdown
-  - 在使用有序列表时，第一级会使用阿拉伯数字，第二级会使用罗马数字，第三级会使用英文字母
 
 ## Deno
   - [deno 初体验，实战记录一个node项目迁移到deno需要做什么](https://cloud.tencent.com/developer/article/1640293)
@@ -120,6 +118,8 @@
   - Rust `if` `else if` `else`
     > `if` `else if` `else` 在一个函数中使用时，这些语句常常分担了划分界限的功能
     > 而在函数有返回值的情况下，被划分出来的界限中有为正常界限，而总存在与之相反非正常界限
+  - Reference
+    - [Sized和?Sized的作用](https://blog.csdn.net/varding/article/details/48326341)
   - RustDoc
     - [What is rustdoc?](https://doc.rust-lang.org/rustdoc/what-is-rustdoc.html)
     - [【Rust日报】2021-01-14 rustdoc的性能有了很大的提升！](https://rustcc.cn/article?id=f27b49b2-7803-4011-9f4d-c924c152a0ab)
